@@ -1,18 +1,26 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "Next.js",
+  name: "Encryptor.link",
   description:
-    "Beautifully designed components built with Radix UI and Tailwind CSS.",
+    "Zero-knowledge encryption for messages and files. Secure, client-side encryption with no server storage.",
   mainNav: [
     {
       title: "Home",
       href: "/",
     },
+    {
+      title: "Encrypt",
+      href: "/encrypt",
+    },
+    {
+      title: "Decrypt",
+      href: "/view",
+    },
   ],
   links: {
-    twitter: "https://twitter.com/shadcn",
-    github: "https://github.com/shadcn/ui",
-    docs: "https://ui.shadcn.com",
+    twitter: "https://twitter.com/encryptorlink",
+    github: "https://github.com/yourusername/encryptor-link",
+    docs: "https://encryptor.link/docs",
   },
 }

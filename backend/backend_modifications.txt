@@ -1,0 +1,32 @@
+BACKEND MODIFICATIONS NEEDED:
+
+1. In lib/crypto.rb, update the generate_file_id method:
+
+    # Generate a secure 8-character file ID
+    def generate_file_id
+      # Use URL-safe characters for better sharing
+      chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+      # Keep generating until we get a unique one
+      loop do
+        id = (0...8).map { chars[SecureRandom.random_number(chars.length)] }.join
+        # Check if ID already exists in database
+        return id unless DB[:encrypted_files].where(file_id: id).count > 0
+      end
+    end
+
+2. In lib/file_storage.rb, remove the ALLOWED_MIME_TYPES restriction:
+
+    # Remove or comment out the ALLOWED_MIME_TYPES constant
+    # ALLOWED_MIME_TYPES = [...] # REMOVE THIS
+    
+    # Update validate_file method to accept all types:
+    def validate_file(file_data, mime_type)
+      return { valid: false, error: "File is too large (max 5GB)" } if file_data.bytesize > MAX_FILE_SIZE
+      # Accept any MIME type
+      { valid: true }
+    end
+
+3. Make sure the database migration can handle larger data:
+
+    # The file_path column should be TEXT type (already is)
+    # The encryption_iv column size might need adjustment if storing multiple files

@@ -1,0 +1,15 @@
+[Unit]
+Description=Encryptor.link Backend Server
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/path/to/encryptor.link/backend
+Environment="RACK_ENV=production"
+Environment="FRONTEND_URL=https://encryptor.link"
+ExecStart=/usr/bin/bundle exec puma -C config/puma.rb
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

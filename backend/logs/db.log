@@ -1,0 +1,36 @@
+# Logfile created on 2025-06-15 06:09:00 +0200 by logger.rb/v1.7.0
+I, [2025-06-15T06:09:00.534152 #19001]  INFO -- : (0.000059s) SELECT sqlite_version()
+I, [2025-06-15T06:09:00.536650 #19001]  INFO -- : (0.002357s) CREATE TABLE IF NOT EXISTS `schema_info` (`version` integer DEFAULT (0) NOT NULL)
+I, [2025-06-15T06:09:00.536777 #19001]  INFO -- : (0.000041s) SELECT * FROM `schema_info` LIMIT 0
+I, [2025-06-15T06:09:00.536893 #19001]  INFO -- : (0.000031s) SELECT 1 AS 'one' FROM `schema_info` LIMIT 1
+I, [2025-06-15T06:09:00.539176 #19001]  INFO -- : (0.002183s) INSERT INTO `schema_info` (`version`) VALUES (0)
+I, [2025-06-15T06:09:00.539315 #19001]  INFO -- : (0.000054s) SELECT count(*) AS 'count' FROM `schema_info` LIMIT 1
+I, [2025-06-15T06:09:00.539430 #19001]  INFO -- : (0.000041s) SELECT `version` FROM `schema_info` LIMIT 1
+I, [2025-06-15T06:09:00.539873 #19001]  INFO -- : Begin applying migration version 1, direction: up
+I, [2025-06-15T06:09:00.542472 #19001]  INFO -- : (0.002314s) CREATE TABLE `encrypted_files` (`id` integer NOT NULL PRIMARY KEY AUTOINCREMENT, `file_id` varchar(36) NOT NULL UNIQUE, `password_hash` varchar(60) NOT NULL, `salt` varchar(64) NOT NULL, `file_path` text NOT NULL, `original_filename` varchar(255), `mime_type` varchar(100), `file_size` integer NOT NULL, `encryption_iv` varchar(32) NOT NULL, `created_at` timestamp NOT NULL, `expires_at` timestamp, `ip_address` varchar(45))
+I, [2025-06-15T06:09:00.544797 #19001]  INFO -- : (0.002245s) CREATE INDEX `encrypted_files_file_id_index` ON `encrypted_files` (`file_id`)
+I, [2025-06-15T06:09:00.547144 #19001]  INFO -- : (0.002227s) CREATE INDEX `encrypted_files_expires_at_index` ON `encrypted_files` (`expires_at`)
+I, [2025-06-15T06:09:00.549461 #19001]  INFO -- : (0.002229s) CREATE TABLE `access_logs` (`id` integer NOT NULL PRIMARY KEY AUTOINCREMENT, `ip_address` varchar(45) NOT NULL, `endpoint` varchar(100) NOT NULL, `accessed_at` timestamp NOT NULL)
+I, [2025-06-15T06:09:00.551726 #19001]  INFO -- : (0.002201s) CREATE INDEX `access_logs_ip_address_endpoint_accessed_at_index` ON `access_logs` (`ip_address`, `endpoint`, `accessed_at`)
+I, [2025-06-15T06:09:00.554028 #19001]  INFO -- : (0.002228s) UPDATE `schema_info` SET `version` = 1
+I, [2025-06-15T06:09:00.554059 #19001]  INFO -- : Finished applying migration version 1, direction: up, took 0.014186 seconds
+I, [2025-06-15T06:09:30.150408 #19017]  INFO -- : (0.000083s) SELECT sqlite_version()
+I, [2025-06-15T06:09:30.150635 #19017]  INFO -- : (0.000033s) CREATE TABLE IF NOT EXISTS `schema_info` (`version` integer DEFAULT (0) NOT NULL)
+I, [2025-06-15T06:09:30.150769 #19017]  INFO -- : (0.000045s) SELECT * FROM `schema_info` LIMIT 0
+I, [2025-06-15T06:09:30.150951 #19017]  INFO -- : (0.000068s) SELECT 1 AS 'one' FROM `schema_info` LIMIT 1
+I, [2025-06-15T06:09:30.151092 #19017]  INFO -- : (0.000055s) SELECT count(*) AS 'count' FROM `schema_info` LIMIT 1
+I, [2025-06-15T06:09:30.151229 #19017]  INFO -- : (0.000059s) SELECT `version` FROM `schema_info` LIMIT 1
+I, [2025-06-15T06:25:57.812730 #19026]  INFO -- : (0.000226s) SELECT count(*) AS 'count' FROM `access_logs` WHERE ((`ip_address` = '127.0.0.1') AND (`endpoint` = '/api/upload') AND (accessed_at > '2025-06-15 06:24:57.812216')) LIMIT 1
+I, [2025-06-15T06:25:57.815661 #19026]  INFO -- : (0.002752s) INSERT INTO `access_logs` (`ip_address`, `endpoint`, `accessed_at`) VALUES ('127.0.0.1', '/api/upload', '2025-06-15 06:25:57.812796')
+I, [2025-06-15T13:46:56.079024 #5029]  INFO -- : (0.000066s) SELECT sqlite_version()
+I, [2025-06-15T13:46:56.079248 #5029]  INFO -- : (0.000028s) CREATE TABLE IF NOT EXISTS `schema_info` (`version` integer DEFAULT (0) NOT NULL)
+I, [2025-06-15T13:46:56.079410 #5029]  INFO -- : (0.000061s) SELECT * FROM `schema_info` LIMIT 0
+I, [2025-06-15T13:46:56.079606 #5029]  INFO -- : (0.000108s) SELECT 1 AS 'one' FROM `schema_info` LIMIT 1
+I, [2025-06-15T13:46:56.079813 #5029]  INFO -- : (0.000042s) SELECT count(*) AS 'count' FROM `schema_info` LIMIT 1
+I, [2025-06-15T13:46:56.079960 #5029]  INFO -- : (0.000063s) SELECT `version` FROM `schema_info` LIMIT 1
+I, [2025-06-15T13:48:16.346368 #5037]  INFO -- : (0.000357s) SELECT count(*) AS 'count' FROM `access_logs` WHERE ((`ip_address` = '127.0.0.1') AND (`endpoint` = '/api/upload') AND (accessed_at > '2025-06-15 13:47:16.345603')) LIMIT 1
+I, [2025-06-15T13:48:16.356057 #5037]  INFO -- : (0.009429s) INSERT INTO `access_logs` (`ip_address`, `endpoint`, `accessed_at`) VALUES ('127.0.0.1', '/api/upload', '2025-06-15 13:48:16.346455')
+I, [2025-06-15T13:48:16.539842 #5037]  INFO -- : (0.006015s) INSERT INTO `encrypted_files` (`file_id`, `password_hash`, `salt`, `file_path`, `original_filename`, `mime_type`, `file_size`, `encryption_iv`, `created_at`, `expires_at`, `ip_address`) VALUES ('d886ad5b-3f84-4f4d-9556-78d0c0942d3c', '$2a$12$TLAc055XG2GKn2NLgMeeOumolCBTPcFLOOGOLF9Q92Pt4o2pWLyBi', '7539d42c36725cbf2ffd8bb0801837bd33cdc273483915662bade74714fc3b6d', '/home/shayan/encryptor-frontend/backend/storage/encrypted/d8/d886ad5b-3f84-4f4d-9556-78d0c0942d3c.enc', 'encrypted_data.json', 'application/json', 1510414, 'kKY9N4pBMoaCDF3c', '2025-06-15 13:48:16.533562', '2025-06-16 13:48:16.533475', '127.0.0.1')
+I, [2025-06-15T13:48:31.308724 #5037]  INFO -- : (0.000200s) SELECT count(*) AS 'count' FROM `access_logs` WHERE ((`ip_address` = '127.0.0.1') AND (`endpoint` = '/api/download') AND (accessed_at > '2025-06-15 13:47:31.308281')) LIMIT 1
+I, [2025-06-15T13:48:31.317709 #5037]  INFO -- : (0.008781s) INSERT INTO `access_logs` (`ip_address`, `endpoint`, `accessed_at`) VALUES ('127.0.0.1', '/api/download', '2025-06-15 13:48:31.308808')
+I, [2025-06-15T13:48:31.318827 #5037]  INFO -- : (0.000534s) SELECT * FROM `encrypted_files` WHERE (`file_id` = 'd886ad5b-3f84-4f4d-9556-78d0c0942d3c') LIMIT 1

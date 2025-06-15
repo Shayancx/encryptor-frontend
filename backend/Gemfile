@@ -1,0 +1,30 @@
+source 'https://rubygems.org'
+
+ruby '>= 3.0.0'
+
+# Core web framework
+gem 'roda', '~> 3.70'
+
+# Database
+gem 'sequel', '~> 5.70'
+gem 'sqlite3', '~> 1.6'
+
+# Server
+gem 'puma', '~> 6.3'
+gem 'rack', '~> 3.0'
+
+# Utilities
+gem 'json', '~> 2.6'
+gem 'bcrypt', '~> 3.1'
+gem 'securerandom', '~> 0.3'
+
+# Development
+group :development do
+  gem 'rerun', '~> 0.14'
+end
+
+gem "rackup", "~> 2.2"
+
+gem "base64", "~> 0.3.0"
+
+gem "logger", "~> 1.7"

@@ -1,0 +1,227 @@
+require 'roda'
+require 'sequel'
+require 'json'
+require 'logger'
+require 'base64'
+require_relative 'lib/crypto'
+require_relative 'lib/file_storage'
+require_relative 'lib/rate_limiter'
+
+# Initialize storage
+FileStorage.initialize_storage
+
+# Database setup
+DB = Sequel.sqlite('db/encryptor.db')
+DB.loggers << Logger.new('logs/db.log')
+
+# Run migrations
+Sequel.extension :migration
+Sequel::Migrator.run(DB, 'db/migrations')
+
+# Logger setup
+LOGGER = Logger.new('logs/app.log', 'daily')
+
+class EncryptorAPI < Roda
+  plugin :json
+  plugin :json_parser
+  plugin :all_verbs
+  plugin :heartbeat, path: '/api/status'
+  plugin :request_headers
+  plugin :halt
+  
+  # CORS headers
+  plugin :default_headers,
+    'Access-Control-Allow-Origin' => ENV['FRONTEND_URL'] || 'http://localhost:3000',
+    'Access-Control-Allow-Methods' => 'GET, POST, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers' => 'Content-Type, Authorization',
+    'Access-Control-Max-Age' => '86400'
+  
+  route do |r|
+    # Handle preflight requests
+    r.options do
+      response.status = 204
+      nil
+    end
+    
+    # Get client IP
+    client_ip = request.env['HTTP_X_FORWARDED_FOR']&.split(',')&.first || request.ip
+    
+    r.on 'api' do
+      # Upload endpoint
+      r.post 'upload' do
+        # Rate limiting
+        rate_check = RateLimiter.check_rate_limit(DB, client_ip, '/api/upload')
+        unless rate_check[:allowed]
+          response.status = 429
+          return { error: 'Rate limit exceeded', retry_after: rate_check[:retry_after] }
+        end
+        
+        begin
+          data = request.params
+          
+          # Validate required fields
+          unless data['encrypted_data'] && data['password'] && data['mime_type']
+            response.status = 400
+            return { error: 'Missing required fields' }
+          end
+          
+          # Validate password strength
+          password_check = Crypto.validate_password_strength(data['password'])
+          unless password_check[:valid]
+            response.status = 400
+            return { error: password_check[:error] }
+          end
+          
+          # Decode encrypted data
+          encrypted_data = Base64.strict_decode64(data['encrypted_data'])
+          
+          # Validate file
+          file_check = FileStorage.validate_file(encrypted_data, data['mime_type'])
+          unless file_check[:valid]
+            response.status = 400
+            return { error: file_check[:error] }
+          end
+          
+          # Generate IDs and salt
+          file_id = Crypto.generate_file_id
+          salt = Crypto.generate_salt
+          
+          # Hash password
+          password_hash = Crypto.hash_password(data['password'], salt)
+          
+          # Store encrypted file
+          file_path = FileStorage.store_encrypted_file(file_id, encrypted_data)
+          
+          # Calculate expiration (24 hours default, configurable)
+          ttl_hours = (data['ttl_hours'] || 24).to_i
+          ttl_hours = 24 if ttl_hours <= 0 || ttl_hours > 168 # Max 1 week
+          expires_at = Time.now + (ttl_hours * 3600)
+          
+          # Store metadata in database
+          DB[:encrypted_files].insert(
+            file_id: file_id,
+            password_hash: password_hash.to_s,
+            salt: salt,
+            file_path: file_path,
+            original_filename: data['filename'],
+            mime_type: data['mime_type'],
+            file_size: encrypted_data.bytesize,
+            encryption_iv: data['iv'] || '',
+            created_at: Time.now,
+            expires_at: expires_at,
+            ip_address: client_ip
+          )
+          
+          LOGGER.info "File uploaded: #{file_id} from #{client_ip}"
+          
+          { 
+            file_id: file_id,
+            expires_at: expires_at.iso8601,
+            download_url: "/api/download/#{file_id}"
+          }
+          
+        rescue => e
+          LOGGER.error "Upload error: #{e.message}\n#{e.backtrace.join("\n")}"
+          response.status = 500
+          { error: 'Internal server error' }
+        end
+      end
+      
+      # Download endpoint
+      r.get 'download', String do |file_id|
+        # Rate limiting
+        rate_check = RateLimiter.check_rate_limit(DB, client_ip, '/api/download')
+        unless rate_check[:allowed]
+          response.status = 429
+          return { error: 'Rate limit exceeded', retry_after: rate_check[:retry_after] }
+        end
+        
+        begin
+          # Get password from request
+          password = request.params['password']
+          
+          unless password
+            response.status = 401
+            return { error: 'Password required' }
+          end
+          
+          # Find file in database
+          file_record = DB[:encrypted_files].where(file_id: file_id).first
+          
+          unless file_record
+            response.status = 404
+            return { error: 'File not found' }
+          end
+          
+          # Check expiration
+          if file_record[:expires_at] < Time.now
+            # Clean up expired file
+            FileStorage.delete_file(file_record[:file_path])
+            DB[:encrypted_files].where(id: file_record[:id]).delete
+            
+            response.status = 404
+            return { error: 'File has expired' }
+          end
+          
+          # Verify password
+          unless Crypto.verify_password(password, file_record[:salt], file_record[:password_hash])
+            LOGGER.warn "Invalid password attempt for file #{file_id} from #{client_ip}"
+            response.status = 401
+            return { error: 'Invalid password' }
+          end
+          
+          # Read encrypted file
+          encrypted_data = FileStorage.read_encrypted_file(file_record[:file_path])
+          
+          unless encrypted_data
+            response.status = 404
+            return { error: 'File data not found' }
+          end
+          
+          LOGGER.info "File downloaded: #{file_id} from #{client_ip}"
+          
+          # Return file data and metadata
+          {
+            encrypted_data: Base64.strict_encode64(encrypted_data),
+            filename: file_record[:original_filename],
+            mime_type: file_record[:mime_type],
+            file_size: file_record[:file_size],
+            iv: file_record[:encryption_iv]
+          }
+          
+        rescue => e
+          LOGGER.error "Download error: #{e.message}\n#{e.backtrace.join("\n")}"
+          response.status = 500
+          { error: 'Internal server error' }
+        end
+      end
+      
+      # Cleanup endpoint (can be called by cron job)
+      r.delete 'cleanup' do
+        # Optional: Add authentication here
+        begin
+          FileStorage.cleanup_expired_files(DB)
+          RateLimiter.cleanup_old_logs(DB)
+          
+          { message: 'Cleanup completed' }
+        rescue => e
+          LOGGER.error "Cleanup error: #{e.message}"
+          response.status = 500
+          { error: 'Cleanup failed' }
+        end
+      end
+      
+      # Info endpoint
+      r.get 'info' do
+        {
+          service: 'Encryptor.link Backend',
+          version: '1.0.0',
+          max_file_size_mb: FileStorage::MAX_FILE_SIZE / 1024 / 1024,
+          allowed_mime_types: FileStorage::ALLOWED_MIME_TYPES,
+          default_ttl_hours: 24,
+          max_ttl_hours: 168
+        }
+      end
+    end
+  end
+end
