@@ -1,4 +1,8 @@
 require_relative 'app'
+require_relative 'lib/secure_logger_middleware'
+
+# Use secure logging middleware
+use SecureLoggerMiddleware
 
 # Only bind to localhost for security
 if ENV['RACK_ENV'] == 'production'

@@ -1,4 +1,4 @@
-# Puma configuration for production
+# Puma configuration for production with security
 workers ENV.fetch("WEB_CONCURRENCY") { 2 }
 threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
 threads threads_count, threads_count
@@ -16,6 +16,31 @@ else
 end
 
 pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
+
+# Custom log formatter that filters sensitive data
+class SecureLogFormatter
+  def call(str)
+    # Remove password parameters from logs
+    filtered = str.gsub(/password=[^&\s]+/, 'password=[FILTERED]')
+    filtered.gsub(/\"password\":\"[^\"]+\"/, '"password":"[FILTERED]"')
+  end
+end
+
+# Configure logging
+on_worker_boot do
+  # Override default logging to filter passwords
+  if defined?(::Rack::CommonLogger)
+    ::Rack::CommonLogger.class_eval do
+      alias_method :original_log, :log
+      
+      def log(env, status, header, began_at)
+        # Filter sensitive data from env
+        env['QUERY_STRING'] = env['QUERY_STRING'].gsub(/password=[^&]+/, 'password=[FILTERED]') if env['QUERY_STRING']
+        original_log(env, status, header, began_at)
+      end
+    end
+  end
+end
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart

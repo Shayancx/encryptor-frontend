@@ -40,3 +40,27 @@ I, [2025-06-15T14:20:50.959060 #5042]  INFO -- : (0.005382s) INSERT INTO `encryp
 I, [2025-06-15T14:21:02.206939 #5042]  INFO -- : (0.000227s) SELECT count(*) AS 'count' FROM `access_logs` WHERE ((`ip_address` = '127.0.0.1') AND (`endpoint` = '/api/download') AND (accessed_at > '2025-06-15 14:20:02.206425')) LIMIT 1
 I, [2025-06-15T14:21:02.216370 #5042]  INFO -- : (0.009239s) INSERT INTO `access_logs` (`ip_address`, `endpoint`, `accessed_at`) VALUES ('127.0.0.1', '/api/download', '2025-06-15 14:21:02.207030')
 I, [2025-06-15T14:21:02.218306 #5042]  INFO -- : (0.001440s) SELECT * FROM `encrypted_files` WHERE (`file_id` = '897c2f5e-b559-45eb-a92a-de88a2ddf05a') LIMIT 1
+I, [2025-06-15T18:18:15.878352 #16494]  INFO -- : (0.000079s) SELECT sqlite_version()
+I, [2025-06-15T18:18:15.878601 #16494]  INFO -- : (0.000059s) SELECT NULL AS 'nil' FROM `schema_migrations` LIMIT 1
+I, [2025-06-15T18:18:15.878759 #16494]  INFO -- : (0.000051s) SELECT * FROM `schema_migrations` LIMIT 0
+I, [2025-06-15T18:18:15.878893 #16494]  INFO -- : (0.000048s) SELECT `filename` FROM `schema_migrations` ORDER BY `filename`
+I, [2025-06-15T18:19:41.179119 #17013]  INFO -- : (0.000067s) SELECT sqlite_version()
+I, [2025-06-15T18:19:41.179369 #17013]  INFO -- : (0.000048s) SELECT NULL AS 'nil' FROM `schema_migrations` LIMIT 1
+I, [2025-06-15T18:19:41.179540 #17013]  INFO -- : (0.000040s) SELECT * FROM `schema_migrations` LIMIT 0
+I, [2025-06-15T18:19:41.179722 #17013]  INFO -- : (0.000063s) SELECT `filename` FROM `schema_migrations` ORDER BY `filename`
+I, [2025-06-15T18:22:06.206431 #17021]  INFO -- : (0.000239s) SELECT count(*) AS 'count' FROM `access_logs` WHERE ((`ip_address` = '::1') AND (`endpoint` = '/api/upload') AND (accessed_at > '2025-06-15 18:21:06.205890')) LIMIT 1
+I, [2025-06-15T18:22:06.211706 #17021]  INFO -- : (0.005107s) INSERT INTO `access_logs` (`ip_address`, `endpoint`, `accessed_at`) VALUES ('::1', '/api/upload', '2025-06-15 18:22:06.206490')
+I, [2025-06-15T18:22:06.441088 #17021]  INFO -- : (0.006131s) INSERT INTO `encrypted_files` (`file_id`, `password_hash`, `salt`, `file_path`, `original_filename`, `mime_type`, `file_size`, `encryption_iv`, `created_at`, `expires_at`, `ip_address`) VALUES ('CnnMUa0B', '$2a$12$nuCjePmDp6SaE3ZZwozUeetVdUQIA8Taez7/7NnSyXflVDkqXJLri', '1e096a8955d0f5bc7f95892088b59703a632bc76e36fa59229005019998318a4', '/home/shayan/encryptor-frontend/backend/storage/encrypted/Cn/CnnMUa0B.enc', 'encrypted_data.json', 'application/json', 9796424, 'sQJeN/ajmrIUB/s9', '2025-06-15 18:22:06.434577', '2025-06-16 18:22:06.434454', '::1')
+I, [2025-06-15T18:22:26.843702 #17025]  INFO -- : (0.000356s) SELECT count(*) AS 'count' FROM `access_logs` WHERE ((`ip_address` = '::1') AND (`endpoint` = '/api/download') AND (accessed_at > '2025-06-15 18:21:26.842860')) LIMIT 1
+I, [2025-06-15T18:22:26.849270 #17025]  INFO -- : (0.005304s) INSERT INTO `access_logs` (`ip_address`, `endpoint`, `accessed_at`) VALUES ('::1', '/api/download', '2025-06-15 18:22:26.843787')
+I, [2025-06-15T18:22:26.850477 #17025]  INFO -- : (0.000524s) SELECT * FROM `encrypted_files` WHERE (`file_id` = 'CnnMUa0B') LIMIT 1
+I, [2025-06-15T18:26:50.453515 #22882]  INFO -- : (0.000091s) SELECT sqlite_version()
+I, [2025-06-15T18:26:50.453777 #22882]  INFO -- : (0.000050s) SELECT NULL AS 'nil' FROM `schema_migrations` LIMIT 1
+I, [2025-06-15T18:26:50.453913 #22882]  INFO -- : (0.000050s) SELECT * FROM `schema_migrations` LIMIT 0
+I, [2025-06-15T18:26:50.454130 #22882]  INFO -- : (0.000095s) SELECT `filename` FROM `schema_migrations` ORDER BY `filename`
+I, [2025-06-15T18:27:44.416024 #22890]  INFO -- : (0.000245s) SELECT count(*) AS 'count' FROM `access_logs` WHERE ((`ip_address` = '::1') AND (`endpoint` = '/api/upload') AND (accessed_at > '2025-06-15 18:26:44.415076')) LIMIT 1
+I, [2025-06-15T18:27:44.422455 #22890]  INFO -- : (0.006279s) INSERT INTO `access_logs` (`ip_address`, `endpoint`, `accessed_at`) VALUES ('::1', '/api/upload', '2025-06-15 18:27:44.416086')
+I, [2025-06-15T18:27:44.685818 #22890]  INFO -- : (0.007613s) INSERT INTO `encrypted_files` (`file_id`, `password_hash`, `salt`, `file_path`, `original_filename`, `mime_type`, `file_size`, `encryption_iv`, `created_at`, `expires_at`, `ip_address`) VALUES ('rKxKMEKW', '$2a$12$jTX.SSLE73cjLIJ.uMiLRO0zhAo0oRK1I/27bIEy84aUOYzdkWp7C', 'f460aef768391e546a1e0c6dfff9ca79877d8b751ea50d486f0aa9bfeb91f580', '/home/shayan/encryptor-frontend/backend/storage/encrypted/rK/rKxKMEKW.enc', 'encrypted_data.json', 'application/json', 17178526, 'lEDRxbOd+4RNwg6W', '2025-06-15 18:27:44.677196', '2025-06-16 18:27:44.677031', '::1')
+I, [2025-06-15T18:28:14.278340 #22890]  INFO -- : (0.000196s) SELECT count(*) AS 'count' FROM `access_logs` WHERE ((`ip_address` = '::1') AND (`endpoint` = '/api/download') AND (accessed_at > '2025-06-15 18:27:14.277901')) LIMIT 1
+I, [2025-06-15T18:28:14.288272 #22890]  INFO -- : (0.009746s) INSERT INTO `access_logs` (`ip_address`, `endpoint`, `accessed_at`) VALUES ('::1', '/api/download', '2025-06-15 18:28:14.278409')
+I, [2025-06-15T18:28:14.289172 #22890]  INFO -- : (0.000582s) SELECT * FROM `encrypted_files` WHERE (`file_id` = 'rKxKMEKW') LIMIT 1

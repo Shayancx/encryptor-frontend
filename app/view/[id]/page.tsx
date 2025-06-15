@@ -41,9 +41,16 @@ export default function ViewPage({ params }: { params: { id: string } }) {
     setError(null)
 
     try {
-      // Fetch encrypted data from backend
+      // SECURITY FIX: Send password in POST body, not URL
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:9292/api'}/download/${params.id}?password=${encodeURIComponent(password)}`
+        `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:9292/api'}/download/${params.id}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ password })
+        }
       )
       
       if (!response.ok) {
@@ -215,11 +222,11 @@ export default function ViewPage({ params }: { params: { id: string } }) {
               <div className="rounded-lg bg-muted p-4">
                 <p className="text-sm font-semibold">Security Process:</p>
                 <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
-                  <li>1. Password is sent to verify access</li>
+                  <li>1. Password sent securely via POST</li>
                   <li>2. Server verifies against salted hash</li>
                   <li>3. Encrypted data is returned</li>
                   <li>4. Decryption happens in your browser</li>
-                  <li>5. No plaintext data on server</li>
+                  <li>5. No passwords in server logs</li>
                 </ul>
               </div>
             </CardContent>

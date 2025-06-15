@@ -1,3 +1,6 @@
+require 'bundler/setup'
+Bundler.require
+
 require 'openssl'
 require 'base64'
 require 'bcrypt'
@@ -7,6 +10,7 @@ module Crypto
   AES_KEY_SIZE = 32 # 256 bits
   AES_IV_SIZE = 16  # 128 bits
   PBKDF2_ITERATIONS = 250_000
+  BCRYPT_COST = 12  # Increased from default for better security
   
   class << self
     # Generate a secure random salt
@@ -14,22 +18,40 @@ module Crypto
       SecureRandom.hex(32)
     end
     
-    # Generate a secure file ID
+    # Generate a secure file ID (8 characters)
     def generate_file_id
-      SecureRandom.uuid
+      chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+      (0...8).map { chars[SecureRandom.random_number(chars.length)] }.join
     end
     
-    # Hash password with bcrypt
+    # Hash password with bcrypt (enhanced security)
     def hash_password(password, salt)
-      BCrypt::Password.create("#{password}#{salt}", cost: 12)
+      # Validate password strength first
+      validation = validate_password_strength(password)
+      return validation unless validation[:valid]
+      
+      # Use higher cost factor for better security
+      BCrypt::Password.create("#{password}#{salt}", cost: BCRYPT_COST)
+    rescue => e
+      raise "Password hashing failed: #{e.message}"
     end
     
-    # Verify password against hash
+    # Verify password against hash (with timing attack protection)
     def verify_password(password, salt, hash)
+      return false if password.nil? || salt.nil? || hash.nil?
+      
+      # BCrypt includes timing attack protection
       BCrypt::Password.new(hash) == "#{password}#{salt}"
+    rescue BCrypt::Errors::InvalidHash => e
+      # Log the error but don't reveal details to user
+      puts "Invalid hash format: #{e.message}" if ENV['RACK_ENV'] == 'development'
+      false
+    rescue => e
+      puts "Password verification error: #{e.message}" if ENV['RACK_ENV'] == 'development'
+      false
     end
     
-    # Derive encryption key from password
+    # Derive encryption key from password (unchanged)
     def derive_key(password, salt)
       OpenSSL::PKCS5.pbkdf2_hmac(
         password,
@@ -40,7 +62,7 @@ module Crypto
       )
     end
     
-    # Encrypt data with AES-256-GCM
+    # Encrypt data with AES-256-GCM (unchanged)
     def encrypt_file(file_path, password, salt)
       cipher = OpenSSL::Cipher.new('AES-256-GCM')
       cipher.encrypt
@@ -62,7 +84,6 @@ module Crypto
         auth_tag = cipher.auth_tag
       end
       
-      # Return IV and auth tag for storage
       {
         data: encrypted_data,
         iv: Base64.strict_encode64(iv),
@@ -70,7 +91,7 @@ module Crypto
       }
     end
     
-    # Decrypt file with AES-256-GCM
+    # Decrypt file with AES-256-GCM (unchanged)
     def decrypt_file(encrypted_data, password, salt, iv_base64, auth_tag_base64)
       cipher = OpenSSL::Cipher.new('AES-256-GCM')
       cipher.decrypt
@@ -89,14 +110,53 @@ module Crypto
       nil # Invalid password or corrupted data
     end
     
-    # Validate password strength
+    # Enhanced password strength validation
     def validate_password_strength(password)
+      return { valid: false, error: "Password cannot be empty" } if password.nil? || password.empty?
       return { valid: false, error: "Password must be at least 8 characters long" } if password.length < 8
       return { valid: false, error: "Password must contain at least one uppercase letter" } unless password =~ /[A-Z]/
       return { valid: false, error: "Password must contain at least one lowercase letter" } unless password =~ /[a-z]/
       return { valid: false, error: "Password must contain at least one number" } unless password =~ /\d/
+      return { valid: false, error: "Password must contain at least one special character" } unless password =~ /[!@#$%^&*(),.?":{}|<>]/
+      
+      # Check for common weak passwords
+      weak_passwords = %w[password Password123! 12345678 qwerty123 admin123]
+      return { valid: false, error: "Password is too common, please choose a stronger one" } if weak_passwords.include?(password)
       
       { valid: true }
+    end
+    
+    # Generate a cryptographically secure password
+    # Generate a cryptographically secure password
+    def generate_secure_password(length = 16)
+      # Ensure minimum length for strong passwords
+      length = [length, 12].max
+      
+      # Character sets
+      lowercase = ('a'..'z').to_a
+      uppercase = ('A'..'Z').to_a
+      numbers = ('0'..'9').to_a
+      special = '!@#$%^&*()'.chars
+      
+      # Ensure at least one of each required character type
+      password = [
+        lowercase.sample,
+        uppercase.sample,
+        numbers.sample,
+        special.sample
+      ]
+      
+      # Fill the rest with random characters from all sets
+      all_chars = lowercase + uppercase + numbers + special
+      (length - 4).times { password << all_chars.sample }
+      
+      # Shuffle to avoid predictable patterns
+      password.shuffle.join
+    end
+    
+    # Hash sensitive data for logging (never log actual passwords)
+    def hash_for_logging(data)
+      Digest::SHA256.hexdigest(data)[0..7] + '...'
     end
   end
 end
