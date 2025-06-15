@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
+import { TiptapEditor } from "@/components/editor/tiptap-editor"
 
 interface DecryptedFile {
   filename: string
@@ -24,6 +24,7 @@ export default function ViewPage({ params }: { params: { id: string } }) {
   const [decryptedFiles, setDecryptedFiles] = useState<DecryptedFile[]>([])
   const [isDecrypting, setIsDecrypting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [isHtmlContent, setIsHtmlContent] = useState(false)
   const { toast } = useToast()
 
   const handleDecrypt = async () => {
@@ -67,6 +68,7 @@ export default function ViewPage({ params }: { params: { id: string } }) {
         
         const decryptedMsg = await decrypt(messagePayload, password)
         setDecryptedMessage(decryptedMsg.data as string)
+        setIsHtmlContent(combinedData.message.isHtml === true)
       }
       
       // Decrypt files if present
@@ -138,10 +140,15 @@ export default function ViewPage({ params }: { params: { id: string } }) {
     if (!decryptedMessage) return
 
     try {
-      await navigator.clipboard.writeText(decryptedMessage)
+      // If it's HTML content, strip tags for clipboard
+      const textToCopy = isHtmlContent 
+        ? decryptedMessage.replace(/<[^>]*>/g, '') 
+        : decryptedMessage
+      
+      await navigator.clipboard.writeText(textToCopy)
       toast({
         title: "Copied to clipboard",
-        description: "The message has been copied"
+        description: "The message has been copied (plain text)"
       })
     } catch (error) {
       toast({
@@ -163,7 +170,7 @@ export default function ViewPage({ params }: { params: { id: string } }) {
         </p>
       </div>
 
-      <div className="mx-auto w-full max-w-2xl">
+      <div className="mx-auto w-full max-w-4xl">
         {!decryptedMessage && decryptedFiles.length === 0 ? (
           <Card>
             <CardHeader>
@@ -236,17 +243,23 @@ export default function ViewPage({ params }: { params: { id: string } }) {
                     <FileText className="mr-2 inline size-4" />
                     Decrypted Message
                   </Label>
-                  <Textarea
-                    value={decryptedMessage}
-                    readOnly
-                    className="min-h-[150px] font-mono"
-                  />
+                  {isHtmlContent ? (
+                    <TiptapEditor
+                      content={decryptedMessage}
+                      readOnly={true}
+                      className="min-h-[150px]"
+                    />
+                  ) : (
+                    <div className="rounded-md border bg-background p-4">
+                      <pre className="whitespace-pre-wrap font-mono text-sm">{decryptedMessage}</pre>
+                    </div>
+                  )}
                   <Button
                     onClick={copyToClipboard}
                     variant="outline"
                     className="w-full"
                   >
-                    Copy Message
+                    Copy Message (Plain Text)
                   </Button>
                 </div>
               )}

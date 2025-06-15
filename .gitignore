@@ -18,6 +18,7 @@ build/
 package-lock.json
 pnpm-lock.yaml
 yarn.lock
+package-lock.json
 
 # Debug logs
 npm-debug.log*
@@ -43,6 +44,9 @@ pnpm-debug.log*
 *~
 
 # === Ruby / Backend ===
+
+# Storage
+backend/storage/encrypted
 
 # Dependency lockfile
 backend/Gemfile.lock

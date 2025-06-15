@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
+import { TiptapEditor } from "@/components/editor/tiptap-editor"
 
 interface FileWithPreview {
   file: File
@@ -93,13 +93,14 @@ export default function EncryptPage() {
       // Prepare combined data
       const combinedData: any = {}
       
-      // Add message if present
+      // Add message if present (now it's HTML content)
       if (message) {
         const encryptedMessage = await encrypt(message, password, 'text')
         combinedData.message = {
           ciphertext: encryptedMessage.ciphertext,
           iv: encryptedMessage.iv,
-          salt: encryptedMessage.salt
+          salt: encryptedMessage.salt,
+          isHtml: true // Flag to indicate this is HTML content
         }
       }
 
@@ -205,7 +206,7 @@ export default function EncryptPage() {
         </p>
       </div>
 
-      <div className="mx-auto w-full max-w-2xl">
+      <div className="mx-auto w-full max-w-4xl">
         {!shareableLink ? (
           <Card>
             <CardHeader>
@@ -218,18 +219,16 @@ export default function EncryptPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              {/* Message Input */}
+              {/* Rich Text Editor for Message */}
               <div className="space-y-2">
                 <Label htmlFor="message">
                   <FileText className="mr-2 inline size-4" />
                   Message (Optional)
                 </Label>
-                <Textarea
-                  id="message"
-                  placeholder="Enter your message here..."
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  className="min-h-[120px]"
+                <TiptapEditor
+                  content={message}
+                  onChange={setMessage}
+                  placeholder="Enter your message here... You can format it using the toolbar above."
                 />
               </div>
 
@@ -335,7 +334,7 @@ export default function EncryptPage() {
               <div className="rounded-lg bg-muted p-4">
                 <p className="text-sm font-semibold">What was encrypted:</p>
                 <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
-                  {message && <li>✓ Text message ({message.length} characters)</li>}
+                  {message && <li>✓ Rich text message with formatting</li>}
                   {files.length > 0 && <li>✓ {files.length} file(s)</li>}
                   <li>• Encrypted with AES-256-GCM</li>
                   <li>• Stored on server for 24 hours</li>
