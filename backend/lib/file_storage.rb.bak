@@ -3,7 +3,7 @@ require 'pathname'
 
 module FileStorage
   STORAGE_PATH = File.expand_path('../storage/encrypted', __dir__)
-  # MAX_FILE_SIZE is now dynamic based on auth status
+  MAX_FILE_SIZE = 5000 * 1024 * 1024 # 5000MB
   
   ALLOWED_MIME_TYPES = %w[
     text/plain

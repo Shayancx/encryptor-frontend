@@ -169,3 +169,7 @@ I, [2025-06-16T15:54:25.842616 #17827]  INFO -- : (0.001108s) SELECT * FROM `enc
 I, [2025-06-16T16:18:46.951786 #17834]  INFO -- : (0.000335s) SELECT count(*) AS 'count' FROM `access_logs` WHERE ((`ip_address` = '127.0.0.1') AND (`endpoint` = '/api/download') AND (accessed_at > '2025-06-16 16:17:46.951024')) LIMIT 1
 I, [2025-06-16T16:18:46.957700 #17834]  INFO -- : (0.005697s) INSERT INTO `access_logs` (`ip_address`, `endpoint`, `accessed_at`) VALUES ('127.0.0.1', '/api/download', '2025-06-16 16:18:46.951895')
 I, [2025-06-16T16:18:46.958824 #17834]  INFO -- : (0.000792s) SELECT * FROM `encrypted_files` WHERE (`file_id` = 'wHdoZxc6') LIMIT 1
+I, [2025-06-16T20:55:55.565518 #5478]  INFO -- : (0.000059s) SELECT sqlite_version()
+I, [2025-06-16T20:55:55.565706 #5478]  INFO -- : (0.000044s) SELECT NULL AS 'nil' FROM `schema_migrations` LIMIT 1
+I, [2025-06-16T20:55:55.565809 #5478]  INFO -- : (0.000039s) SELECT * FROM `schema_migrations` LIMIT 0
+I, [2025-06-16T20:55:55.565948 #5478]  INFO -- : (0.000060s) SELECT `filename` FROM `schema_migrations` ORDER BY `filename`

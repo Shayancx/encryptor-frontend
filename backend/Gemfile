@@ -23,3 +23,9 @@ gem "rackup", "~> 2.2"
 gem "base64", "~> 0.3.0"
 gem "logger", "~> 1.7"
 gem 'benchmark', '~> 0.4'
+
+# Authentication
+gem 'rodauth', '~> 2.32'
+gem 'rodauth-model', '~> 0.2'
+gem 'jwt', '~> 2.7'
+gem 'rack-cors', '~> 2.0'
