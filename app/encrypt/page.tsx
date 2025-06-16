@@ -1,9 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { Copy, FileText, Lock, Upload, X } from "lucide-react"
+import { Copy, FileText, Lock, Upload, X, FileAudio } from "lucide-react"
 
 import { encrypt } from "@/lib/crypto"
+import { FileIcon } from "@/components/ui/file-icon"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -252,8 +253,10 @@ export default function EncryptPage() {
                     {files.map((fileObj, index) => (
                       <div key={index} className="flex items-center justify-between rounded-lg border p-2">
                         <div className="flex items-center space-x-2">
-                          {fileObj.preview && (
+                          {fileObj.preview ? (
                             <img src={fileObj.preview} alt="" className="h-10 w-10 rounded object-cover" />
+                          ) : (
+                            <FileIcon mimeType={fileObj.file.type} className="h-10 w-10 text-muted-foreground" />
                           )}
                           <div>
                             <p className="text-sm font-medium">{fileObj.file.name}</p>
