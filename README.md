@@ -1,35 +1,70 @@
-# ShadcnUI NextJS 14 Starter Template
+# Encryptor.link
 
-A Next.js 14 template for building apps with ShadcnUI and Tailwind CSS.
-
-This is a fork of `https://github.com/shadcn-ui/next-template` just updated for NextJS 14.
-
-## Demo  
-[https://shadcn-next-14.vercel.app/](https://shadcn-next-14.vercel.app/)  
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/dazeb/shadcnui-next-14) 
-
-All credit to [ShadcnUI](https://ui.shadcn.com/)
-
-## Usage
-
-```bash
-npx create-next-app -e https://github.com/dazeb/shadcnui-next-14
-```
-## Screenshot
-
-![image](https://github.com/user-attachments/assets/6817f61d-4507-4edd-8dc0-78a4b3f5d6a7)
-
+Encryptor.link is a full-stack web application for zero-knowledge encryption of messages and files. All encryption happens in the browser using the Web Crypto API and AES‑256‑GCM. Encrypted data can optionally be stored on the included Ruby backend and retrieved with a short shareable link.
 
 ## Features
 
-- Next.js 14 App Directory <-- UPDATED FROM 13 NOTHING ELSE.
-- Radix UI Primitives
-- Tailwind CSS
-- Icons from [Lucide](https://lucide.dev)
-- Dark mode with `next-themes`
-- Tailwind CSS class sorting, merging and linting.
+- **Client‑side encryption** with PBKDF2 key derivation (250k iterations)
+- **Rich text editor** for messages powered by [Tiptap](https://tiptap.dev)
+- **File uploads** with previews and a 24‑hour automatic expiry
+- **Audio player** with metadata extraction and playlist controls
+- **User accounts** with JWT authentication for larger upload limits
+- **Rate limiting** and password hashing on the backend using bcrypt
+
+## Key dependencies
+- Next.js 14, React 18
+- Tailwind CSS and Shadcn UI components
+- Tiptap editor with extensions
+- React H5 Audio Player and music-metadata-browser
+- Ruby 3 with Roda, Sequel and bcrypt
+
+## Repository overview
+
+```
+app/        Next.js 14 application (pages, routes, UI)
+backend/    Ruby Roda server storing encrypted blobs in SQLite
+components/ Reusable React components including editor and audio player
+lib/        Utility modules and WebCrypto helpers
+config/     Site configuration
+public/     Static assets
+```
+
+### Frontend
+- Built with **Next.js 14**, Tailwind CSS and [Shadcn UI](https://ui.shadcn.com)
+- Pages: encryption form (`/encrypt`), decryption/view (`/view/[id]`), account management, login and registration
+- Uses React contexts for authentication (`lib/contexts/auth-context.tsx`)
+- `lib/crypto.ts` implements browser encryption and decryption
+
+### Backend
+- `backend/app.rb` exposes a small JSON API with endpoints for upload, download, authentication and account management
+- Files are encrypted at rest and stored under `backend/lib/storage`
+- Database migrations reside in `backend/db/migrations`
+- Includes scripts for cleanup and a CLI tester under `backend/scripts`
+
+## Local development
+
+1. **Install dependencies**
+   ```bash
+   npm install
+   cd backend && bundle install
+   ```
+2. **Start the backend**
+   ```bash
+   bundle exec rerun rackup
+   ```
+   The API will listen on `http://localhost:9292`.
+3. **Start the frontend** (in a separate terminal)
+   ```bash
+   npm run dev
+   ```
+   Set `NEXT_PUBLIC_API_URL` in `.env.local` if the backend is running on a different host.
+
+Visit `http://localhost:3000` to use the app.
+
+## Deployment
+
+The backend is intended to run behind an HTTPS reverse proxy such as Nginx. See `backend/README.md` for production notes, systemd service and cron examples.
 
 ## License
 
-Licensed under the [MIT license](https://github.com/shadcn/ui/blob/main/LICENSE.md).
+See individual source files for license information.
