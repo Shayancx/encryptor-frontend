@@ -16,11 +16,6 @@ export const siteConfig = {
     {
       title: "Decrypt",
     },
-    {
-      title: "Audio Demo",
-      href: "/demo",
-      href: "/view",
-    },
   ],
   links: {
     twitter: "https://twitter.com/encryptorlink",

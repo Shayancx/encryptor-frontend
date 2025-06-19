@@ -45,36 +45,7 @@ export function SiteHeader() {
                 )}
               </>
             )}
-            <Link
-              href={siteConfig.links.github}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <div
-                className={buttonVariants({
-                  size: "icon",
-                  variant: "ghost",
-                })}
-              >
-                <Icons.gitHub className="size-5" />
-                <span className="sr-only">GitHub</span>
-              </div>
-            </Link>
-            <Link
-              href={siteConfig.links.twitter}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <div
-                className={buttonVariants({
-                  size: "icon",
-                  variant: "ghost",
-                })}
-              >
-                <Icons.twitter className="size-5 fill-current" />
-                <span className="sr-only">Twitter</span>
-              </div>
-            </Link>
+            {/* External links removed */}
             <ThemeToggle />
           </nav>
         </div>
