@@ -195,3 +195,6 @@ I, [2025-06-19T14:10:38.671024 #778]  INFO -- : (0.000053s) SELECT `filename` FR
 I, [2025-06-19T14:10:38.671357 #778]  INFO -- : Begin applying migration 20250619141036_setup_auth_tables.rb, direction: up
 I, [2025-06-19T14:10:38.671632 #778]  INFO -- : (0.000108s) SELECT * FROM `sqlite_master` WHERE ((`name` != 'sqlite_sequence') AND (`type` = 'table'))
 I, [2025-06-19T14:10:38.671792 #778]  INFO -- : (0.000083s) SELECT * FROM `sqlite_master` WHERE ((`name` != 'sqlite_sequence') AND (`type` = 'table'))
+I, [2025-06-19T14:27:23.678449 #968]  INFO -- : (0.000241s) SELECT sqlite_version()
+I, [2025-06-19T14:27:23.679130 #968]  INFO -- : (0.000118s) SELECT count(*) AS 'count' FROM `accounts` WHERE (`email` = 'Shayan.ashtarany@protonmail.com') LIMIT 1
+I, [2025-06-19T14:27:23.860861 #968]  INFO -- : (0.004966s) INSERT INTO `accounts` (`email`, `status_id`, `password_hash`, `created_at`) VALUES ('Shayan.ashtarany@protonmail.com', 'verified', '$2a$12$UVrxyjBPQTFdRerKfEeMcuzviVVHOuOREq/miKk0StaemQouoQ8RO', '2025-06-19 14:27:23.855606')
