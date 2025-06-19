@@ -264,7 +264,10 @@ class EncryptorAPI < Roda
             }
           end
           
-          file_check = FileStorage.validate_file(encrypted_data, data['mime_type'])
+          # Validate uploaded file size and type using the same limit check
+          # used earlier. This avoids relying on the removed MAX_FILE_SIZE
+          # constant in FileStorage.
+          file_check = FileStorage.validate_file(encrypted_data, data['mime_type'], upload_limit)
           unless file_check[:valid]
             response.status = 400
             return { error: file_check[:error] }

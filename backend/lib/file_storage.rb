@@ -31,8 +31,13 @@ module FileStorage
       FileUtils.mkdir_p(STORAGE_PATH)
     end
     
-    def validate_file(file_data, mime_type)
-      return { valid: false, error: "File is too large (max 5GB)" } if file_data.bytesize > MAX_FILE_SIZE
+    # Validate the uploaded file against size and MIME type restrictions
+    # @param file_data [String] Raw binary file data
+    # @param mime_type [String] MIME type provided by the client
+    # @param max_size [Integer] Maximum allowed file size in bytes
+    # @return [Hash] Validation result with :valid boolean and optional :error
+    def validate_file(file_data, mime_type, max_size)
+      return { valid: false, error: "File is too large (max #{max_size / 1024 / 1024}MB)" } if file_data.bytesize > max_size
       return { valid: false, error: "File type not allowed" } unless ALLOWED_MIME_TYPES.include?(mime_type)
       
       { valid: true }
