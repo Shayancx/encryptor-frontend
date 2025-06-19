@@ -33,6 +33,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const token = localStorage.getItem('auth_token')
       if (!token) {
         setUser(null)
+        setIsLoading(false)
         return
       }
 
@@ -80,7 +81,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (response.ok && data.access_token) {
         localStorage.setItem('auth_token', data.access_token)
-        await checkAuth()
+        // Set user from response data
+        if (data.account) {
+          setUser({
+            id: data.account.id,
+            email: data.account.email,
+            upload_limit: 4 * 1024 * 1024 * 1024,
+            upload_limit_mb: 4096
+          })
+        }
         toast({
           title: "Login successful",
           description: "Welcome back!"
@@ -113,7 +122,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (response.ok && data.access_token) {
         localStorage.setItem('auth_token', data.access_token)
-        await checkAuth()
+        // Set user from response data
+        if (data.account) {
+          setUser({
+            id: data.account.id,
+            email: data.account.email,
+            upload_limit: 4 * 1024 * 1024 * 1024,
+            upload_limit_mb: 4096
+          })
+        }
         toast({
           title: "Account created",
           description: "Welcome to Encryptor.link!"

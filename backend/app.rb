@@ -6,24 +6,39 @@ require 'sequel'
 require 'json'
 require 'logger'
 require 'base64'
+require 'bcrypt'
+require 'securerandom'
 require_relative 'lib/crypto'
 require_relative 'lib/file_storage'
 require_relative 'lib/rate_limiter'
-require_relative 'lib/rodauth/app'
 
 # Initialize storage
 FileStorage.initialize_storage
 
-# Database setup
+# Database setup (WITHOUT auto-running migrations)
 DB = Sequel.sqlite('db/encryptor.db')
 DB.loggers << Logger.new('logs/db.log')
 
-# Run migrations
-Sequel.extension :migration
-Sequel::Migrator.run(DB, 'db/migrations')
-
 # Logger setup
 LOGGER = Logger.new('logs/app.log', 'daily')
+
+# Load JWT secret
+JWT_SECRET = ENV.fetch('JWT_SECRET') { SecureRandom.hex(32) }
+
+# Simple JWT implementation
+module SimpleJWT
+  def self.encode(payload)
+    require 'jwt'
+    JWT.encode(payload, JWT_SECRET, 'HS256')
+  end
+  
+  def self.decode(token)
+    require 'jwt'
+    JWT.decode(token, JWT_SECRET, true, algorithm: 'HS256')[0]
+  rescue JWT::DecodeError
+    nil
+  end
+end
 
 class EncryptorAPI < Roda
   plugin :json
@@ -33,12 +48,6 @@ class EncryptorAPI < Roda
   plugin :request_headers
   plugin :halt
   
-  # Configure Rodauth
-  RodauthApp.configure(self)
-  
-  # Include Rodauth helpers
-  include RodauthApp
-  
   # CORS headers
   plugin :default_headers,
     'Access-Control-Allow-Origin' => ENV['FRONTEND_URL'] || 'http://localhost:3000',
@@ -46,44 +55,147 @@ class EncryptorAPI < Roda
     'Access-Control-Allow-Headers' => 'Content-Type, Authorization',
     'Access-Control-Max-Age' => '86400'
   
+  # Helper methods
+  def current_user
+    return @current_user if defined?(@current_user)
+    
+    auth_header = request.env['HTTP_AUTHORIZATION']
+    return @current_user = nil unless auth_header && auth_header.start_with?('Bearer ')
+    
+    token = auth_header.sub('Bearer ', '')
+    payload = SimpleJWT.decode(token)
+    return @current_user = nil unless payload
+    
+    @current_user = DB[:accounts].where(id: payload['account_id']).first
+  end
+  
+  def authenticated?
+    !current_user.nil?
+  end
+  
+  def upload_limit
+    authenticated? ? 4 * 1024 * 1024 * 1024 : 100 * 1024 * 1024
+  end
+  
   route do |r|
-    # Handle preflight requests
+    # Handle preflight
     r.options do
       response.status = 204
       nil
     end
     
-    # Rodauth routes
-    r.rodauth
-    
     # Get client IP
     client_ip = request.env['HTTP_X_FORWARDED_FOR']&.split(',')&.first || request.ip
     
     r.on 'api' do
-      # Auth status endpoint
-      r.get 'auth', 'status' do
-        if authenticated?
+      # Auth endpoints
+      r.on 'auth' do
+        # Register
+        r.post 'register' do
+          email = request.params['login']
+          password = request.params['password']
+          
+          unless email && password
+            response.status = 400
+            next { error: 'Email and password required' }
+          end
+          
+          # Check if exists
+          if DB[:accounts].where(email: email).count > 0
+            response.status = 400
+            next { error: 'Email already registered' }
+          end
+          
+          # Validate password
+          unless password.length >= 8 && password =~ /[A-Z]/ && password =~ /[a-z]/ && password =~ /\d/
+            response.status = 400
+            next { error: 'Password must be at least 8 characters with uppercase, lowercase, and number' }
+          end
+          
+          # Create account
+          account_id = DB[:accounts].insert(
+            email: email,
+            status_id: 'verified',
+            password_hash: BCrypt::Password.create(password),
+            created_at: Time.now
+          )
+          
+          # Generate token
+          token = SimpleJWT.encode({ account_id: account_id, email: email })
+          
           {
-            authenticated: true,
+            success: true,
+            access_token: token,
             account: {
-              id: current_account[:id],
-              email: current_account[:email],
+              id: account_id,
+              email: email
+            }
+          }
+        end
+        
+        # Login
+        r.post 'login' do
+          email = request.params['login']
+          password = request.params['password']
+          
+          unless email && password
+            response.status = 400
+            next { error: 'Email and password required' }
+          end
+          
+          # Find account
+          account = DB[:accounts].where(email: email).first
+          
+          unless account && BCrypt::Password.new(account[:password_hash]) == password
+            response.status = 401
+            next { error: 'Invalid email or password' }
+          end
+          
+          # Update last login
+          DB[:accounts].where(id: account[:id]).update(last_login_at: Time.now)
+          
+          # Generate token
+          token = SimpleJWT.encode({ account_id: account[:id], email: account[:email] })
+          
+          {
+            success: true,
+            access_token: token,
+            account: {
+              id: account[:id],
+              email: account[:email]
+            }
+          }
+        end
+        
+        # Logout (just a placeholder since we're using JWT)
+        r.post 'logout' do
+          { success: true }
+        end
+        
+        # Status
+        r.get 'status' do
+          if authenticated?
+            {
+              authenticated: true,
+              account: {
+                id: current_user[:id],
+                email: current_user[:email],
+                upload_limit: upload_limit,
+                upload_limit_mb: upload_limit / 1024 / 1024
+              }
+            }
+          else
+            {
+              authenticated: false,
               upload_limit: upload_limit,
               upload_limit_mb: upload_limit / 1024 / 1024
             }
-          }
-        else
-          {
-            authenticated: false,
-            upload_limit: upload_limit,
-            upload_limit_mb: upload_limit / 1024 / 1024
-          }
+          end
         end
       end
       
-      # Account info endpoint
+      # Account endpoints
       r.on 'account' do
-        # Require authentication
         unless authenticated?
           response.status = 401
           next { error: 'Authentication required' }
@@ -91,17 +203,16 @@ class EncryptorAPI < Roda
         
         r.get 'info' do
           {
-            id: current_account[:id],
-            email: current_account[:email],
-            created_at: current_account[:created_at],
+            id: current_user[:id],
+            email: current_user[:email],
+            created_at: current_user[:created_at],
             upload_limit_mb: upload_limit / 1024 / 1024
           }
         end
         
-        # User's files
         r.get 'files' do
           files = DB[:encrypted_files]
-            .where(account_id: current_account[:id])
+            .where(account_id: current_user[:id])
             .order(Sequel.desc(:created_at))
             .limit(100)
             .all
@@ -120,9 +231,8 @@ class EncryptorAPI < Roda
         end
       end
       
-      # Upload endpoint (modified)
+      # Upload endpoint
       r.post 'upload' do
-        # Rate limiting
         rate_check = RateLimiter.check_rate_limit(DB, client_ip, '/api/upload')
         unless rate_check[:allowed]
           response.status = 429
@@ -132,23 +242,19 @@ class EncryptorAPI < Roda
         begin
           data = request.params
           
-          # Validate required fields
           unless data['encrypted_data'] && data['password'] && data['mime_type']
             response.status = 400
             return { error: 'Missing required fields' }
           end
           
-          # Validate password strength
           password_check = Crypto.validate_password_strength(data['password'])
           unless password_check[:valid]
             response.status = 400
             return { error: password_check[:error] }
           end
           
-          # Decode encrypted data
           encrypted_data = Base64.strict_decode64(data['encrypted_data'])
           
-          # Check file size against user's limit
           if encrypted_data.bytesize > upload_limit
             response.status = 400
             return { 
@@ -158,29 +264,21 @@ class EncryptorAPI < Roda
             }
           end
           
-          # Validate file
           file_check = FileStorage.validate_file(encrypted_data, data['mime_type'])
           unless file_check[:valid]
             response.status = 400
             return { error: file_check[:error] }
           end
           
-          # Generate IDs and salt
           file_id = Crypto.generate_file_id
           salt = Crypto.generate_salt
-          
-          # Hash password
           password_hash = Crypto.hash_password(data['password'], salt)
-          
-          # Store encrypted file
           file_path = FileStorage.store_encrypted_file(file_id, encrypted_data)
           
-          # Calculate expiration
           ttl_hours = (data['ttl_hours'] || 24).to_i
           ttl_hours = 24 if ttl_hours <= 0 || ttl_hours > 168
           expires_at = Time.now + (ttl_hours * 3600)
           
-          # Store metadata in database
           DB[:encrypted_files].insert(
             file_id: file_id,
             password_hash: password_hash.to_s,
@@ -193,17 +291,16 @@ class EncryptorAPI < Roda
             created_at: Time.now,
             expires_at: expires_at,
             ip_address: client_ip,
-            account_id: authenticated? ? current_account[:id] : nil
+            account_id: authenticated? ? current_user[:id] : nil
           )
           
-          LOGGER.info "File uploaded: #{file_id} from #{client_ip} (user: #{authenticated? ? current_account[:id] : 'anonymous'})"
+          LOGGER.info "File uploaded: #{file_id} from #{client_ip} (user: #{authenticated? ? current_user[:id] : 'anonymous'})"
           
           { 
             file_id: file_id,
             expires_at: expires_at.iso8601,
             download_url: "/api/download/#{file_id}"
           }
-          
         rescue => e
           LOGGER.error "Upload error: #{e.message}\n#{e.backtrace.join("\n")}"
           response.status = 500
@@ -211,7 +308,7 @@ class EncryptorAPI < Roda
         end
       end
       
-      # Download endpoint (unchanged)
+      # Download endpoints
       r.on 'download', String do |file_id|
         r.get do
           begin
@@ -225,7 +322,6 @@ class EncryptorAPI < Roda
             if file_record[:expires_at] < Time.now
               FileStorage.delete_file(file_record[:file_path])
               DB[:encrypted_files].where(id: file_record[:id]).delete
-              
               response.status = 404
               return { error: 'File has expired' }
             end
@@ -271,7 +367,6 @@ class EncryptorAPI < Roda
             if file_record[:expires_at] < Time.now
               FileStorage.delete_file(file_record[:file_path])
               DB[:encrypted_files].where(id: file_record[:id]).delete
-              
               response.status = 404
               return { error: 'File has expired' }
             end
@@ -298,7 +393,6 @@ class EncryptorAPI < Roda
               file_size: file_record[:file_size],
               iv: file_record[:encryption_iv]
             }
-            
           rescue => e
             LOGGER.error "Download error: #{e.message}\n#{e.backtrace.join("\n")}"
             response.status = 500
@@ -307,12 +401,11 @@ class EncryptorAPI < Roda
         end
       end
       
-      # Cleanup endpoint
+      # Cleanup
       r.delete 'cleanup' do
         begin
           FileStorage.cleanup_expired_files(DB)
           RateLimiter.cleanup_old_logs(DB)
-          
           { message: 'Cleanup completed' }
         rescue => e
           LOGGER.error "Cleanup error: #{e.message}"
@@ -321,7 +414,7 @@ class EncryptorAPI < Roda
         end
       end
       
-      # Info endpoint
+      # Info
       r.get 'info' do
         {
           service: 'Encryptor.link Backend',
@@ -333,8 +426,7 @@ class EncryptorAPI < Roda
             authenticated_limit_mb: 4096
           },
           default_ttl_hours: 24,
-          max_ttl_hours: 168,
-          security_note: 'Passwords must be sent via POST body, never in URLs'
+          max_ttl_hours: 168
         }
       end
     end

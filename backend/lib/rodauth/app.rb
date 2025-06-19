@@ -1,70 +1,77 @@
 require 'rodauth'
 require 'jwt'
+require 'securerandom'
 
 module RodauthApp
   def self.configure(app)
     app.plugin :rodauth, json: :only do
-      enable :login, :logout, :create_account, :verify_account,
-             :reset_password, :change_password, :change_login,
-             :jwt, :active_sessions
+      enable :login, :logout, :create_account, :jwt
 
       # Database configuration
       db DB
       
-      # JWT configuration for API usage
+      # JWT configuration
       jwt_secret ENV.fetch('JWT_SECRET') { SecureRandom.hex(32) }
       
       # Account configuration
       account_password_hash_column :password_hash
       accounts_table :accounts
       
-      # Session configuration
-      use_database_authentication_functions? false
+      # Don't require email verification
+      skip_status_checks? true
       
-      # Password requirements (matching existing validation)
+      # Password requirements
       password_meets_requirements? do |password|
-        super && password.length >= 8 &&
-          password =~ /[A-Z]/ && password =~ /[a-z]/ &&
-          password =~ /\d/ && password =~ /[!@#$%^&*(),.?":{}|<>]/
+        password.length >= 8 &&
+          password =~ /[A-Z]/ &&
+          password =~ /[a-z]/ &&
+          password =~ /\d/
       end
       
-      # Email configuration (disabled for now, can be enabled later)
-      skip_status_checks? true
-      verify_account_skip_resend_email true
-      reset_password_skip_resend_email true
-      
-      # JSON responses
+      # JSON only mode
       only_json? true
       
-      # Paths
+      # Routes
       prefix "/api/auth"
-      login_route "login"
-      logout_route "logout"
-      create_account_route "register"
       
-      # Hooks
-      after_login do
-        response.headers['X-User-Id'] = account[:id].to_s
-      end
+      # Custom responses
+      create_account_redirect { json_response(success: true, account_id: account_id) }
+      login_redirect { json_response(success: true) }
+      logout_redirect { json_response(success: true) }
       
-      # Custom error messages
-      login_error_flash "Invalid email or password"
-      create_account_error_flash "Could not create account"
+      # JWT settings
+      jwt_access_token_period 86400 # 24 hours
     end
   end
-  
-  # Helper method to check if user is authenticated
-  def authenticated?
-    rodauth.logged_in?
-  end
-  
-  # Helper method to get current account
-  def current_account
-    rodauth.account if authenticated?
-  end
-  
-  # Helper method to get upload limit based on auth status
-  def upload_limit
-    authenticated? ? 4 * 1024 * 1024 * 1024 : 100 * 1024 * 1024  # 4GB : 100MB
+end
+
+# Mixin for Roda app
+module RodauthMixin
+  def self.included(base)
+    base.class_eval do
+      # Helper to check authentication
+      def authenticated?
+        return false unless rodauth.jwt_token
+        
+        begin
+          rodauth.require_account
+          true
+        rescue
+          false
+        end
+      end
+      
+      # Get current account safely
+      def current_account
+        return nil unless authenticated?
+        
+        @current_account ||= DB[:accounts].where(id: rodauth.account_id).first
+      end
+      
+      # Get upload limit
+      def upload_limit
+        authenticated? ? 4 * 1024 * 1024 * 1024 : 100 * 1024 * 1024
+      end
+    end
   end
 end

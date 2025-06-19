@@ -173,3 +173,25 @@ I, [2025-06-16T20:55:55.565518 #5478]  INFO -- : (0.000059s) SELECT sqlite_versi
 I, [2025-06-16T20:55:55.565706 #5478]  INFO -- : (0.000044s) SELECT NULL AS 'nil' FROM `schema_migrations` LIMIT 1
 I, [2025-06-16T20:55:55.565809 #5478]  INFO -- : (0.000039s) SELECT * FROM `schema_migrations` LIMIT 0
 I, [2025-06-16T20:55:55.565948 #5478]  INFO -- : (0.000060s) SELECT `filename` FROM `schema_migrations` ORDER BY `filename`
+I, [2025-06-19T13:54:20.576704 #30802]  INFO -- : (0.000065s) SELECT sqlite_version()
+I, [2025-06-19T13:54:20.576919 #30802]  INFO -- : (0.000062s) SELECT NULL AS 'nil' FROM `schema_migrations` LIMIT 1
+I, [2025-06-19T13:54:20.577010 #30802]  INFO -- : (0.000035s) SELECT * FROM `schema_migrations` LIMIT 0
+I, [2025-06-19T13:54:20.577154 #30802]  INFO -- : (0.000067s) SELECT `filename` FROM `schema_migrations` ORDER BY `filename`
+I, [2025-06-19T14:04:25.291522 #341]  INFO -- : (0.000070s) SELECT sqlite_version()
+I, [2025-06-19T14:04:25.291733 #341]  INFO -- : (0.000045s) SELECT NULL AS 'nil' FROM `schema_migrations` LIMIT 1
+I, [2025-06-19T14:04:25.291821 #341]  INFO -- : (0.000036s) SELECT * FROM `schema_migrations` LIMIT 0
+I, [2025-06-19T14:04:25.291948 #341]  INFO -- : (0.000049s) SELECT `filename` FROM `schema_migrations` ORDER BY `filename`
+I, [2025-06-19T14:10:38.280536 #775]  INFO -- : (0.000087s) SELECT sqlite_version()
+I, [2025-06-19T14:10:38.280863 #775]  INFO -- : (0.000063s) SELECT NULL AS 'nil' FROM `schema_migrations` LIMIT 1
+I, [2025-06-19T14:10:38.280959 #775]  INFO -- : (0.000040s) SELECT * FROM `schema_migrations` LIMIT 0
+I, [2025-06-19T14:10:38.281168 #775]  INFO -- : (0.000053s) SELECT `filename` FROM `schema_migrations` ORDER BY `filename`
+I, [2025-06-19T14:10:38.281504 #775]  INFO -- : Begin applying migration 20250619141036_setup_auth_tables.rb, direction: up
+I, [2025-06-19T14:10:38.281773 #775]  INFO -- : (0.000089s) SELECT * FROM `sqlite_master` WHERE ((`name` != 'sqlite_sequence') AND (`type` = 'table'))
+I, [2025-06-19T14:10:38.281934 #775]  INFO -- : (0.000086s) SELECT * FROM `sqlite_master` WHERE ((`name` != 'sqlite_sequence') AND (`type` = 'table'))
+I, [2025-06-19T14:10:38.670407 #778]  INFO -- : (0.000070s) SELECT sqlite_version()
+I, [2025-06-19T14:10:38.670698 #778]  INFO -- : (0.000064s) SELECT NULL AS 'nil' FROM `schema_migrations` LIMIT 1
+I, [2025-06-19T14:10:38.670792 #778]  INFO -- : (0.000039s) SELECT * FROM `schema_migrations` LIMIT 0
+I, [2025-06-19T14:10:38.671024 #778]  INFO -- : (0.000053s) SELECT `filename` FROM `schema_migrations` ORDER BY `filename`
+I, [2025-06-19T14:10:38.671357 #778]  INFO -- : Begin applying migration 20250619141036_setup_auth_tables.rb, direction: up
+I, [2025-06-19T14:10:38.671632 #778]  INFO -- : (0.000108s) SELECT * FROM `sqlite_master` WHERE ((`name` != 'sqlite_sequence') AND (`type` = 'table'))
+I, [2025-06-19T14:10:38.671792 #778]  INFO -- : (0.000083s) SELECT * FROM `sqlite_master` WHERE ((`name` != 'sqlite_sequence') AND (`type` = 'table'))

@@ -101,11 +101,6 @@ export default function LoginPage() {
                 </Link>
               </div>
             </CardFooter>
-              <div className="text-right">
-                <Link href="/reset-password" className="text-sm text-primary hover:underline">
-                  Forgot your password?
-                </Link>
-              </div>
           </form>
         </Card>
 
