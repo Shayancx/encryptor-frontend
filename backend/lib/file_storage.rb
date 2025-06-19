@@ -3,7 +3,11 @@ require 'pathname'
 
 module FileStorage
   STORAGE_PATH = File.expand_path('../storage/encrypted', __dir__)
-  # MAX_FILE_SIZE is now dynamic based on auth status
+  
+  # File size limits (in bytes)
+  MAX_FILE_SIZE_ANONYMOUS = 100 * 1024 * 1024      # 100MB for anonymous users
+  MAX_FILE_SIZE_AUTHENTICATED = 4 * 1024 * 1024 * 1024  # 4GB for authenticated users
+  MAX_FILE_SIZE_ABSOLUTE = 5 * 1024 * 1024 * 1024   # 5GB absolute maximum
   
   ALLOWED_MIME_TYPES = %w[
     text/plain
@@ -14,15 +18,29 @@ module FileStorage
     application/pdf
     application/zip
     application/x-zip-compressed
+    application/x-rar-compressed
+    application/x-7z-compressed
+    application/x-tar
+    application/gzip
     image/jpeg
     image/png
     image/gif
     image/webp
     image/svg+xml
+    image/bmp
     video/mp4
     video/webm
+    video/ogg
+    video/quicktime
+    video/x-msvideo
     audio/mpeg
     audio/wav
+    audio/flac
+    audio/ogg
+    audio/mp4
+    audio/aac
+    audio/opus
+    audio/webm
     application/octet-stream
   ].freeze
   
@@ -37,8 +55,21 @@ module FileStorage
     # @param max_size [Integer] Maximum allowed file size in bytes
     # @return [Hash] Validation result with :valid boolean and optional :error
     def validate_file(file_data, mime_type, max_size)
-      return { valid: false, error: "File is too large (max #{max_size / 1024 / 1024}MB)" } if file_data.bytesize > max_size
-      return { valid: false, error: "File type not allowed" } unless ALLOWED_MIME_TYPES.include?(mime_type)
+      # Check file size
+      if file_data.bytesize > max_size
+        max_size_mb = (max_size / 1024.0 / 1024.0).round(1)
+        return { valid: false, error: "File is too large (max #{max_size_mb}MB)" }
+      end
+      
+      # Check absolute maximum
+      if file_data.bytesize > MAX_FILE_SIZE_ABSOLUTE
+        return { valid: false, error: "File exceeds absolute maximum size limit (5GB)" }
+      end
+      
+      # Check MIME type
+      unless ALLOWED_MIME_TYPES.include?(mime_type)
+        return { valid: false, error: "File type '#{mime_type}' is not allowed" }
+      end
       
       { valid: true }
     end
@@ -86,6 +117,11 @@ module FileStorage
         delete_file(file[:file_path])
         db[:encrypted_files].where(id: file[:id]).delete
       end
+    end
+    
+    # Helper method to get upload limit for user type
+    def upload_limit_for_user(authenticated)
+      authenticated ? MAX_FILE_SIZE_AUTHENTICATED : MAX_FILE_SIZE_ANONYMOUS
     end
   end
 end

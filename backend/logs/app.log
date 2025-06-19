@@ -113,3 +113,5 @@ E, [2025-06-19T14:56:40.260077 #7299] ERROR -- : Upload error: uninitialized con
 /home/shayan/encryptor-frontend/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/thread_pool.rb:167:in 'block in Puma::ThreadPool#spawn_thread'
 I, [2025-06-19T15:20:32.471721 #11664]  INFO -- : File uploaded: nZqpuWtC from 127.0.0.1 (user: anonymous)
 I, [2025-06-19T15:20:46.899408 #11664]  INFO -- : File downloaded: nZqpuWtC from 127.0.0.1
+I, [2025-06-19T23:06:18.981404 #4676]  INFO -- : File uploaded: CoYxEESh from 127.0.0.1 (user: anonymous)
+I, [2025-06-19T23:06:32.391097 #4676]  INFO -- : File downloaded: CoYxEESh from 127.0.0.1

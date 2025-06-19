@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Copy, FileText, Lock, Upload, X, FileAudio } from "lucide-react"
+import Link from "next/link"
 
 import { encrypt } from "@/lib/crypto"
 import { FileIcon } from "@/components/ui/file-icon"
@@ -9,8 +10,10 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useToast } from "@/components/ui/use-toast"
 import { TiptapEditor } from "@/components/editor/tiptap-editor"
+import { useAuth } from "@/lib/contexts/auth-context"
 
 interface FileWithPreview {
   file: File
@@ -24,6 +27,11 @@ export default function EncryptPage() {
   const [shareableLink, setShareableLink] = useState("")
   const [isEncrypting, setIsEncrypting] = useState(false)
   const { toast } = useToast()
+  const { user } = useAuth()
+  
+  // Dynamic upload limits based on authentication
+  const uploadLimitMB = user ? 4096 : 100
+  const uploadLimitBytes = uploadLimitMB * 1024 * 1024
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files || [])
@@ -33,10 +41,10 @@ export default function EncryptPage() {
       return sum + (f.file?.size || f.size || 0)
     }, 0)
     
-    if (totalSize > 500 * 1024 * 1024) { // 500MB total limit for browser
+    if (totalSize > uploadLimitBytes) {
       toast({
         title: "Files too large",
-        description: "Total size of all files must be under 500MB",
+        description: `Total size of all files must be under ${uploadLimitMB}MB${!user ? '. Create an account to upload up to 4GB.' : ''}`,
         variant: "destructive"
       })
       return
@@ -125,11 +133,21 @@ export default function EncryptPage() {
       }
 
       // Always store on server
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      }
+      
+      // Add authentication header if user is logged in
+      if (user) {
+        const token = localStorage.getItem('auth_token')
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`
+        }
+      }
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:9292/api'}/upload`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify({
           encrypted_data: btoa(JSON.stringify(combinedData)), // Base64 encode the combined data
           password: password,
@@ -195,6 +213,9 @@ export default function EncryptPage() {
     if (fileInput) fileInput.value = ''
   }
 
+  const totalFileSize = files.reduce((sum, f) => sum + f.file.size, 0)
+  const totalFileSizeMB = (totalFileSize / 1024 / 1024).toFixed(2)
+
   return (
     <section className="container grid gap-6 pb-8 pt-6 md:py-10">
       <div className="flex flex-col items-center gap-2">
@@ -209,105 +230,127 @@ export default function EncryptPage() {
 
       <div className="mx-auto w-full max-w-4xl">
         {!shareableLink ? (
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Lock className="size-5" />
-                Encryption Form
-              </CardTitle>
-              <CardDescription>
-                Add a message and/or files, then provide a strong password
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {/* Rich Text Editor for Message */}
-              <div className="space-y-2">
-                <Label htmlFor="message">
-                  <FileText className="mr-2 inline size-4" />
-                  Message (Optional)
-                </Label>
-                <TiptapEditor
-                  content={message}
-                  onChange={setMessage}
-                  placeholder="Enter your message here... You can format it using the toolbar above."
-                />
-              </div>
+          <div className="space-y-6">
+            {/* Upload Limit Notice */}
+            {!user && (
+              <Alert>
+                <AlertDescription>
+                  You're uploading as a guest ({uploadLimitMB}MB limit). 
+                  <Link href="/register" className="font-medium underline ml-1">
+                    Create an account
+                  </Link> to upload up to 4GB.
+                </AlertDescription>
+              </Alert>
+            )}
 
-              {/* File Upload */}
-              <div className="space-y-2">
-                <Label htmlFor="file-upload">
-                  <Upload className="mr-2 inline size-4" />
-                  Files (Optional) - All types supported
-                </Label>
-                <Input
-                  id="file-upload"
-                  type="file"
-                  multiple
-                  onChange={handleFileChange}
-                  className="cursor-pointer"
-                />
-                
-                {/* File List */}
-                {files.length > 0 && (
-                  <div className="mt-2 space-y-2">
-                    {files.map((fileObj, index) => (
-                      <div key={index} className="flex items-center justify-between rounded-lg border p-2">
-                        <div className="flex items-center space-x-2">
-                          {fileObj.preview ? (
-                            <img src={fileObj.preview} alt="" className="h-10 w-10 rounded object-cover" />
-                          ) : (
-                            <FileIcon mimeType={fileObj.file.type} className="h-10 w-10 text-muted-foreground" />
-                          )}
-                          <div>
-                            <p className="text-sm font-medium">{fileObj.file.name}</p>
-                            <p className="text-xs text-muted-foreground">
-                              {(fileObj.file.size / 1024 / 1024).toFixed(2)} MB
-                            </p>
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Lock className="size-5" />
+                  Encryption Form
+                </CardTitle>
+                <CardDescription>
+                  Add a message and/or files, then provide a strong password
+                  {user && (
+                    <span className="block mt-1 text-green-600 dark:text-green-400">
+                      Authenticated user - {uploadLimitMB}MB upload limit
+                    </span>
+                  )}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {/* Rich Text Editor for Message */}
+                <div className="space-y-2">
+                  <Label htmlFor="message">
+                    <FileText className="mr-2 inline size-4" />
+                    Message (Optional)
+                  </Label>
+                  <TiptapEditor
+                    content={message}
+                    onChange={setMessage}
+                    placeholder="Enter your message here... You can format it using the toolbar above."
+                  />
+                </div>
+
+                {/* File Upload */}
+                <div className="space-y-2">
+                  <Label htmlFor="file-upload">
+                    <Upload className="mr-2 inline size-4" />
+                    Files (Optional) - All types supported
+                  </Label>
+                  <Input
+                    id="file-upload"
+                    type="file"
+                    multiple
+                    onChange={handleFileChange}
+                    className="cursor-pointer"
+                  />
+                  
+                  {/* File List */}
+                  {files.length > 0 && (
+                    <div className="mt-2 space-y-2">
+                      {files.map((fileObj, index) => (
+                        <div key={index} className="flex items-center justify-between rounded-lg border p-2">
+                          <div className="flex items-center space-x-2">
+                            {fileObj.preview ? (
+                              <img src={fileObj.preview} alt="" className="h-10 w-10 rounded object-cover" />
+                            ) : (
+                              <FileIcon mimeType={fileObj.file.type} className="h-10 w-10 text-muted-foreground" />
+                            )}
+                            <div>
+                              <p className="text-sm font-medium">{fileObj.file.name}</p>
+                              <p className="text-xs text-muted-foreground">
+                                {(fileObj.file.size / 1024 / 1024).toFixed(2)} MB
+                              </p>
+                            </div>
                           </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => removeFile(index)}
+                          >
+                            <X className="size-4" />
+                          </Button>
                         </div>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => removeFile(index)}
-                        >
-                          <X className="size-4" />
-                        </Button>
+                      ))}
+                      <div className="flex justify-between items-center text-xs text-muted-foreground pt-2">
+                        <span>Total: {files.length} file(s), {totalFileSizeMB} MB</span>
+                        <span className={totalFileSize > uploadLimitBytes ? "text-red-500" : "text-green-600"}>
+                          Limit: {uploadLimitMB}MB
+                        </span>
                       </div>
-                    ))}
-                    <p className="text-xs text-muted-foreground">
-                      Total: {files.length} file(s), {(files.reduce((sum, f) => sum + f.file.size, 0) / 1024 / 1024).toFixed(2)} MB
-                    </p>
-                  </div>
-                )}
-              </div>
+                    </div>
+                  )}
+                </div>
 
-              {/* Password Input */}
-              <div className="space-y-2">
-                <Label htmlFor="password">
-                  <Lock className="mr-2 inline size-4" />
-                  Encryption Password
-                </Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Min 8 chars, uppercase, lowercase, number..."
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <p className="text-xs text-muted-foreground">
-                  Choose a strong password. Only a salted hash will be stored on the server.
-                </p>
-              </div>
+                {/* Password Input */}
+                <div className="space-y-2">
+                  <Label htmlFor="password">
+                    <Lock className="mr-2 inline size-4" />
+                    Encryption Password
+                  </Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Min 8 chars, uppercase, lowercase, number..."
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Choose a strong password. Only a salted hash will be stored on the server.
+                  </p>
+                </div>
 
-              <Button
-                onClick={handleEncrypt}
-                disabled={isEncrypting || (!message && files.length === 0) || !password}
-                className="w-full"
-              >
-                {isEncrypting ? "Encrypting..." : "Encrypt & Generate Link"}
-              </Button>
-            </CardContent>
-          </Card>
+                <Button
+                  onClick={handleEncrypt}
+                  disabled={isEncrypting || (!message && files.length === 0) || !password || totalFileSize > uploadLimitBytes}
+                  className="w-full"
+                >
+                  {isEncrypting ? "Encrypting..." : "Encrypt & Generate Link"}
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
         ) : (
           <Card>
             <CardHeader>
@@ -342,6 +385,7 @@ export default function EncryptPage() {
                   <li>• Encrypted with AES-256-GCM</li>
                   <li>• Stored on server for 24 hours</li>
                   <li>• 8-character secure ID</li>
+                  {user && <li>• Linked to your account</li>}
                 </ul>
               </div>
 

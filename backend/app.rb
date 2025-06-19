@@ -8,22 +8,28 @@ require 'logger'
 require 'base64'
 require 'bcrypt'
 require 'securerandom'
+
+# Load configuration first
+require_relative 'config/environment'
+
+# Load application modules
 require_relative 'lib/crypto'
 require_relative 'lib/file_storage'
 require_relative 'lib/rate_limiter'
+require_relative 'lib/services/email_service'
 
 # Initialize storage
 FileStorage.initialize_storage
 
-# Database setup (WITHOUT auto-running migrations)
-DB = Sequel.sqlite('db/encryptor.db')
-DB.loggers << Logger.new('logs/db.log')
+# Database setup
+DB = Sequel.connect(Environment.database_url)
+DB.loggers << Logger.new('logs/db.log') if Environment.development?
 
 # Logger setup
 LOGGER = Logger.new('logs/app.log', 'daily')
 
-# Load JWT secret
-JWT_SECRET = ENV.fetch('JWT_SECRET') { SecureRandom.hex(32) }
+# Load JWT secret from environment
+JWT_SECRET = Environment.jwt_secret
 
 # Simple JWT implementation
 module SimpleJWT
@@ -50,7 +56,7 @@ class EncryptorAPI < Roda
   
   # CORS headers
   plugin :default_headers,
-    'Access-Control-Allow-Origin' => ENV['FRONTEND_URL'] || 'http://localhost:3000',
+    'Access-Control-Allow-Origin' => Environment.frontend_url,
     'Access-Control-Allow-Methods' => 'GET, POST, DELETE, OPTIONS',
     'Access-Control-Allow-Headers' => 'Content-Type, Authorization',
     'Access-Control-Max-Age' => '86400'
@@ -74,7 +80,7 @@ class EncryptorAPI < Roda
   end
   
   def upload_limit
-    authenticated? ? 4 * 1024 * 1024 * 1024 : 100 * 1024 * 1024
+    FileStorage.upload_limit_for_user(authenticated?)
   end
   
   route do |r|
@@ -119,6 +125,13 @@ class EncryptorAPI < Roda
             password_hash: BCrypt::Password.create(password),
             created_at: Time.now
           )
+          
+          # Send welcome email
+          if Environment.email_enabled?
+            Thread.new do
+              EmailService.send_welcome_email(email)
+            end
+          end
           
           # Generate token
           token = SimpleJWT.encode({ account_id: account_id, email: email })
@@ -192,6 +205,85 @@ class EncryptorAPI < Roda
             }
           end
         end
+        
+        # Password reset request
+        r.post 'reset-password-request' do
+          email = request.params['login']
+          
+          unless email
+            response.status = 400
+            next { error: 'Email address required' }
+          end
+          
+          # Find account
+          account = DB[:accounts].where(email: email).first
+          
+          if account
+            # Generate reset token
+            reset_token = SecureRandom.hex(32)
+            expires_at = Time.now + 3600  # 1 hour
+            
+            # Store reset token
+            DB[:password_reset_tokens].insert(
+              account_id: account[:id],
+              token: reset_token,
+              expires_at: expires_at
+            )
+            
+            # Send email (async in production)
+            if Environment.email_enabled?
+              Thread.new do
+                EmailService.send_password_reset_email(email, reset_token)
+              end
+            end
+          end
+          
+          # Always return success to prevent email enumeration
+          { success: true, message: 'If an account exists with this email, you will receive reset instructions.' }
+        end
+        
+        # Password reset confirmation
+        r.post 'reset-password' do
+          token = request.params['token']
+          new_password = request.params['password']
+          
+          unless token && new_password
+            response.status = 400
+            next { error: 'Token and new password required' }
+          end
+          
+          # Validate password
+          unless new_password.length >= 8 && new_password =~ /[A-Z]/ && new_password =~ /[a-z]/ && new_password =~ /\d/
+            response.status = 400
+            next { error: 'Password must be at least 8 characters with uppercase, lowercase, and number' }
+          end
+          
+          # Find valid reset token
+          reset_record = DB[:password_reset_tokens]
+            .where(token: token)
+            .where(Sequel.lit('expires_at > ?', Time.now))
+            .where(used: false)
+            .first
+          
+          unless reset_record
+            response.status = 400
+            next { error: 'Invalid or expired reset token' }
+          end
+          
+          # Update password
+          DB.transaction do
+            # Update account password
+            DB[:accounts].where(id: reset_record[:account_id]).update(
+              password_hash: BCrypt::Password.create(new_password),
+              updated_at: Time.now
+            )
+            
+            # Mark token as used
+            DB[:password_reset_tokens].where(id: reset_record[:id]).update(used: true)
+          end
+          
+          { success: true, message: 'Password updated successfully' }
+        end
       end
       
       # Account endpoints
@@ -264,9 +356,7 @@ class EncryptorAPI < Roda
             }
           end
           
-          # Validate uploaded file size and type using the same limit check
-          # used earlier. This avoids relying on the removed MAX_FILE_SIZE
-          # constant in FileStorage.
+          # Validate uploaded file size and type
           file_check = FileStorage.validate_file(encrypted_data, data['mime_type'], upload_limit)
           unless file_check[:valid]
             response.status = 400
@@ -425,8 +515,8 @@ class EncryptorAPI < Roda
           features: {
             anonymous_upload: true,
             authenticated_upload: true,
-            anonymous_limit_mb: 100,
-            authenticated_limit_mb: 4096
+            anonymous_limit_mb: FileStorage::MAX_FILE_SIZE_ANONYMOUS / 1024 / 1024,
+            authenticated_limit_mb: FileStorage::MAX_FILE_SIZE_AUTHENTICATED / 1024 / 1024 / 1024
           },
           default_ttl_hours: 24,
           max_ttl_hours: 168
