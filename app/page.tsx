@@ -1,6 +1,5 @@
-import { FileAudio } from "lucide-react"
 import Link from "next/link"
-import { Shield, Lock, Zap, Github } from "lucide-react"
+import { Shield, Lock, Zap, Github, FileAudio } from "lucide-react"
 
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
@@ -86,44 +85,45 @@ export default function IndexPage() {
           <li>They enter the password to decrypt</li>
         </ol>
       </div>
+
+      {/* Audio Player Demo Section */}
+      <div className="mt-12 rounded-lg border bg-muted/30 p-8">
+        <h2 className="mb-4 text-2xl font-semibold flex items-center gap-2">
+          <FileAudio className="size-6" />
+          Audio File Support
+        </h2>
+        <p className="text-muted-foreground mb-6">
+          This app now supports encrypted audio files with a full-featured player:
+        </p>
+        <div className="grid gap-4 md:grid-cols-2">
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base">Metadata Extraction</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="text-sm text-muted-foreground space-y-1">
+                <li>• Album artwork</li>
+                <li>• Artist & album info</li>
+                <li>• Genre & year</li>
+                <li>• Bitrate & file size</li>
+              </ul>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base">Advanced Features</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="text-sm text-muted-foreground space-y-1">
+                <li>• Synchronized lyrics</li>
+                <li>• Keyboard shortcuts</li>
+                <li>• Mobile responsive</li>
+                <li>• Dark mode support</li>
+              </ul>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </section>
   )
 }
-{/* Audio Player Demo Section */}
-<div className="mt-12 rounded-lg border bg-muted/30 p-8">
-  <h2 className="mb-4 text-2xl font-semibold flex items-center gap-2">
-    <FileAudio className="size-6" />
-    Audio File Support
-  </h2>
-  <p className="text-muted-foreground mb-6">
-    This app now supports encrypted audio files with a full-featured player:
-  </p>
-  <div className="grid gap-4 md:grid-cols-2">
-    <Card>
-      <CardHeader className="pb-3">
-        <CardTitle className="text-base">Metadata Extraction</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <ul className="text-sm text-muted-foreground space-y-1">
-          <li>• Album artwork</li>
-          <li>• Artist & album info</li>
-          <li>• Genre & year</li>
-          <li>• Bitrate & file size</li>
-        </ul>
-      </CardContent>
-    </Card>
-    <Card>
-      <CardHeader className="pb-3">
-        <CardTitle className="text-base">Advanced Features</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <ul className="text-sm text-muted-foreground space-y-1">
-          <li>• Synchronized lyrics</li>
-          <li>• Keyboard shortcuts</li>
-          <li>• Mobile responsive</li>
-          <li>• Dark mode support</li>
-        </ul>
-      </CardContent>
-    </Card>
-  </div>
-</div>

@@ -1,32 +1,40 @@
 source 'https://rubygems.org'
 
 ruby '>= 3.0.0'
+
 # Core web framework
 gem 'roda', '~> 3.70'
+
 # Database
 gem 'sequel', '~> 5.70'
 gem 'sqlite3', '~> 1.6'
+
 # Server
 gem 'puma', '~> 6.3'
 gem 'rack', '~> 3.0'
+gem 'rackup', '~> 2.2'
+
+# Security
+gem 'bcrypt', '~> 3.1'
+gem 'jwt', '~> 2.7'
+gem 'rack-cors', '~> 2.0'
+
 # Utilities
 gem 'json', '~> 2.6'
-gem 'bcrypt', '~> 3.1'
-gem 'base64', '~> 0.3.0'
-gem 'logger', '~> 1.7'
+gem 'base64', '~> 0.2.0'
+gem 'logger', '~> 1.6'
 gem 'securerandom', '~> 0.3'
+gem 'benchmark', '~> 0.3'
+gem 'dotenv', '~> 2.8'
+
+# Email
+gem 'mail', '~> 2.8'
+
 # Development
 group :development do
   gem 'rerun', '~> 0.14'
 end
-gem "rackup", "~> 2.2"
-gem "base64", "~> 0.3.0"
-gem "logger", "~> 1.7"
-gem 'benchmark', '~> 0.4'
-# Authentication
-gem 'rodauth', '~> 2.32'
-gem 'rodauth-model', '~> 0.2'
-gem 'jwt', '~> 2.7'
-gem 'rack-cors', '~> 2.0'
-gem 'dotenv', '~> 2.8'
-gem 'mail', '~> 2.8'
+
+# Authentication (removed unused gems)
+# gem 'rodauth', '~> 2.32'
+# gem 'rodauth-model', '~> 0.2'
