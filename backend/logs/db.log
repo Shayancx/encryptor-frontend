@@ -198,3 +198,34 @@ I, [2025-06-19T14:10:38.671792 #778]  INFO -- : (0.000083s) SELECT * FROM `sqlit
 I, [2025-06-19T14:27:23.678449 #968]  INFO -- : (0.000241s) SELECT sqlite_version()
 I, [2025-06-19T14:27:23.679130 #968]  INFO -- : (0.000118s) SELECT count(*) AS 'count' FROM `accounts` WHERE (`email` = 'Shayan.ashtarany@protonmail.com') LIMIT 1
 I, [2025-06-19T14:27:23.860861 #968]  INFO -- : (0.004966s) INSERT INTO `accounts` (`email`, `status_id`, `password_hash`, `created_at`) VALUES ('Shayan.ashtarany@protonmail.com', 'verified', '$2a$12$UVrxyjBPQTFdRerKfEeMcuzviVVHOuOREq/miKk0StaemQouoQ8RO', '2025-06-19 14:27:23.855606')
+I, [2025-06-19T14:35:22.106556 #968]  INFO -- : (0.000543s) SELECT * FROM `accounts` WHERE (`id` = 2) LIMIT 1
+I, [2025-06-19T14:35:22.113210 #968]  INFO -- : (0.001436s) SELECT * FROM `accounts` WHERE (`id` = 2) LIMIT 1
+I, [2025-06-19T14:35:22.127242 #968]  INFO -- : (0.000199s) SELECT * FROM `accounts` WHERE (`id` = 2) LIMIT 1
+I, [2025-06-19T14:35:22.127674 #968]  INFO -- : (0.000171s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 2) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-19T14:35:22.132066 #968]  INFO -- : (0.000186s) SELECT * FROM `accounts` WHERE (`id` = 2) LIMIT 1
+I, [2025-06-19T14:35:22.132385 #968]  INFO -- : (0.000156s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 2) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-19T14:35:35.349005 #968]  INFO -- : (0.000209s) SELECT * FROM `accounts` WHERE (`id` = 2) LIMIT 1
+I, [2025-06-19T14:35:35.349311 #968]  INFO -- : (0.000159s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 2) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-19T14:35:35.351445 #968]  INFO -- : (0.000142s) SELECT * FROM `accounts` WHERE (`id` = 2) LIMIT 1
+I, [2025-06-19T14:35:35.351722 #968]  INFO -- : (0.000140s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 2) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-19T14:37:39.539742 #972]  INFO -- : (0.000259s) SELECT sqlite_version()
+I, [2025-06-19T14:37:39.540513 #972]  INFO -- : (0.000413s) SELECT * FROM `accounts` WHERE (`id` = 2) LIMIT 1
+I, [2025-06-19T14:37:39.540875 #972]  INFO -- : (0.000164s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 2) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-19T14:37:39.543488 #972]  INFO -- : (0.000119s) SELECT * FROM `accounts` WHERE (`id` = 2) LIMIT 1
+I, [2025-06-19T14:37:39.543698 #972]  INFO -- : (0.000111s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 2) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-19T14:39:22.419097 #968]  INFO -- : (0.000186s) SELECT * FROM `accounts` WHERE (`id` = 2) LIMIT 1
+I, [2025-06-19T14:39:22.420133 #968]  INFO -- : (0.000903s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 2) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-19T14:39:22.422422 #968]  INFO -- : (0.000133s) SELECT * FROM `accounts` WHERE (`id` = 2) LIMIT 1
+I, [2025-06-19T14:39:22.422824 #968]  INFO -- : (0.000238s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 2) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-19T14:41:39.197266 #972]  INFO -- : (0.000190s) SELECT * FROM `accounts` WHERE (`id` = 2) LIMIT 1
+I, [2025-06-19T14:41:39.197504 #972]  INFO -- : (0.000120s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 2) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-19T14:41:39.199271 #972]  INFO -- : (0.000098s) SELECT * FROM `accounts` WHERE (`id` = 2) LIMIT 1
+I, [2025-06-19T14:41:39.199465 #972]  INFO -- : (0.000108s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 2) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-19T14:51:25.241926 #968]  INFO -- : (0.000166s) SELECT count(*) AS 'count' FROM `access_logs` WHERE ((`ip_address` = '127.0.0.1') AND (`endpoint` = '/api/upload') AND (accessed_at > '2025-06-19 14:50:25.241485')) LIMIT 1
+I, [2025-06-19T14:51:25.246289 #968]  INFO -- : (0.004213s) INSERT INTO `access_logs` (`ip_address`, `endpoint`, `accessed_at`) VALUES ('127.0.0.1', '/api/upload', '2025-06-19 14:51:25.241992')
+I, [2025-06-19T14:52:23.111114 #7295]  INFO -- : (0.000246s) SELECT sqlite_version()
+I, [2025-06-19T14:52:23.111700 #7295]  INFO -- : (0.000127s) SELECT count(*) AS 'count' FROM `access_logs` WHERE ((`ip_address` = '127.0.0.1') AND (`endpoint` = '/api/upload') AND (accessed_at > '2025-06-19 14:51:23.110598')) LIMIT 1
+I, [2025-06-19T14:52:23.115974 #7295]  INFO -- : (0.004089s) INSERT INTO `access_logs` (`ip_address`, `endpoint`, `accessed_at`) VALUES ('127.0.0.1', '/api/upload', '2025-06-19 14:52:23.111747')
+I, [2025-06-19T14:56:39.881962 #7299]  INFO -- : (0.000238s) SELECT sqlite_version()
+I, [2025-06-19T14:56:39.882502 #7299]  INFO -- : (0.000129s) SELECT count(*) AS 'count' FROM `access_logs` WHERE ((`ip_address` = '127.0.0.1') AND (`endpoint` = '/api/upload') AND (accessed_at > '2025-06-19 14:55:39.881449')) LIMIT 1
+I, [2025-06-19T14:56:39.885923 #7299]  INFO -- : (0.003237s) INSERT INTO `access_logs` (`ip_address`, `endpoint`, `accessed_at`) VALUES ('127.0.0.1', '/api/upload', '2025-06-19 14:56:39.882546')
