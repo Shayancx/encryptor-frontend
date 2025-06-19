@@ -30,18 +30,12 @@ export function SiteHeader() {
                     </Button>
                   </Link>
                 ) : (
-                  <>
-                    <Link href="/login">
-                      <Button variant="ghost" size="sm">
-                        Log In
-                      </Button>
-                    </Link>
-                    <Link href="/register">
-                      <Button variant="default" size="sm">
-                        Sign Up
-                      </Button>
-                    </Link>
-                  </>
+                  <Link href="/login">
+                    <Button variant="ghost" size="icon">
+                      <User className="size-6" />
+                      <span className="sr-only">Account</span>
+                    </Button>
+                  </Link>
                 )}
               </>
             )}

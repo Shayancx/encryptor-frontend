@@ -236,3 +236,10 @@ I, [2025-06-19T15:20:32.471661 #11664]  INFO -- : (0.008347s) INSERT INTO `encry
 I, [2025-06-19T15:20:46.627230 #11664]  INFO -- : (0.000214s) SELECT count(*) AS 'count' FROM `access_logs` WHERE ((`ip_address` = '127.0.0.1') AND (`endpoint` = '/api/download') AND (accessed_at > '2025-06-19 15:19:46.626735')) LIMIT 1
 I, [2025-06-19T15:20:46.632163 #11664]  INFO -- : (0.004747s) INSERT INTO `access_logs` (`ip_address`, `endpoint`, `accessed_at`) VALUES ('127.0.0.1', '/api/download', '2025-06-19 15:20:46.627311')
 I, [2025-06-19T15:20:46.632956 #11664]  INFO -- : (0.000532s) SELECT * FROM `encrypted_files` WHERE (`file_id` = 'nZqpuWtC') LIMIT 1
+I, [2025-06-19T15:48:09.848544 #11668]  INFO -- : (0.000290s) SELECT sqlite_version()
+I, [2025-06-19T15:48:09.849470 #11668]  INFO -- : (0.000529s) SELECT * FROM `accounts` WHERE (`email` = 'Shayan.ashtarany@protonmail.com') LIMIT 1
+I, [2025-06-19T15:48:10.029172 #11668]  INFO -- : (0.004937s) UPDATE `accounts` SET `last_login_at` = '2025-06-19 15:48:10.023940' WHERE (`id` = 2)
+I, [2025-06-19T15:48:10.660249 #11668]  INFO -- : (0.001850s) SELECT * FROM `accounts` WHERE (`id` = 2) LIMIT 1
+I, [2025-06-19T15:48:10.660780 #11668]  INFO -- : (0.000170s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 2) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-19T15:48:10.664466 #11668]  INFO -- : (0.000251s) SELECT * FROM `accounts` WHERE (`id` = 2) LIMIT 1
+I, [2025-06-19T15:48:10.664937 #11668]  INFO -- : (0.000248s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 2) ORDER BY `created_at` DESC LIMIT 100
