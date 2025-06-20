@@ -16,6 +16,8 @@ require_relative 'config/environment'
 require_relative 'lib/crypto'
 require_relative 'lib/file_storage'
 require_relative 'lib/rate_limiter'
+require_relative 'lib/streaming_upload'
+require_relative 'lib/streaming_upload'
 require_relative 'lib/services/email_service'
 
 # Initialize storage

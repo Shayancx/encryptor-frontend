@@ -81,3 +81,13 @@ else
   puts "  stats   - Show database statistics"
   puts "  all     - Show stats then run cleanup"
 end
+
+# Clean up streaming upload sessions
+puts "🗑️  Cleaning up streaming upload sessions..."
+StreamingUpload.cleanup_old_sessions
+puts "✓ Streaming sessions cleaned"
+
+# Clean up streaming upload sessions
+puts "🗑️  Cleaning up streaming upload sessions..."
+StreamingUpload.cleanup_old_sessions
+puts "✓ Streaming sessions cleaned"

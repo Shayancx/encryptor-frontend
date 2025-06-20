@@ -252,3 +252,56 @@ I, [2025-06-19T23:06:32.117451 #4676]  INFO -- : (0.009523s) INSERT INTO `access
 I, [2025-06-19T23:06:32.120761 #4676]  INFO -- : (0.003024s) SELECT * FROM `encrypted_files` WHERE (`file_id` = 'CoYxEESh') LIMIT 1
 I, [2025-06-20T07:54:39.753791 #18510]  INFO -- : (0.000091s) SELECT sqlite_version()
 I, [2025-06-20T07:54:39.754254 #18510]  INFO -- : (0.000133s) SELECT * FROM `sqlite_master` WHERE ((`name` != 'sqlite_sequence') AND (`type` = 'table'))
+I, [2025-06-20T12:24:42.985406 #9184]  INFO -- : (0.000361s) SELECT sqlite_version()
+I, [2025-06-20T12:24:42.986104 #9184]  INFO -- : (0.000174s) SELECT * FROM `accounts` WHERE (`email` = 'shayan.ashtarany@protonmail.com') LIMIT 1
+I, [2025-06-20T12:24:59.104671 #9184]  INFO -- : (0.000175s) SELECT count(*) AS 'count' FROM `accounts` WHERE (`email` = 'shayan.ashtarany@protonmail.com') LIMIT 1
+I, [2025-06-20T12:24:59.281277 #9184]  INFO -- : (0.005977s) INSERT INTO `accounts` (`email`, `status_id`, `password_hash`, `created_at`) VALUES ('shayan.ashtarany@protonmail.com', 'verified', '$2a$12$uDvV6n9cZDSXNzi5NCsOJ.IneUB.TfCTVqUKAfXZaKLDR3IBjY0sO', '2025-06-20 12:24:59.274844')
+I, [2025-06-20T12:25:00.030930 #9184]  INFO -- : (0.000638s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T12:25:00.031500 #9184]  INFO -- : (0.000195s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 9) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-20T12:25:00.033052 #9189]  INFO -- : (0.000505s) SELECT sqlite_version()
+I, [2025-06-20T12:25:00.034188 #9189]  INFO -- : (0.000548s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T12:25:00.034583 #9189]  INFO -- : (0.000152s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 9) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-20T12:25:13.721501 #9189]  INFO -- : (0.000317s) SELECT * FROM `accounts` WHERE (`email` = 'shayan.ashtarany@protonmail.com') LIMIT 1
+I, [2025-06-20T12:25:13.901960 #9189]  INFO -- : (0.009372s) UPDATE `accounts` SET `last_login_at` = '2025-06-20 12:25:13.892216' WHERE (`id` = 9)
+I, [2025-06-20T12:25:13.937069 #9189]  INFO -- : (0.000444s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T12:25:13.937684 #9189]  INFO -- : (0.000271s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 9) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-20T12:25:13.938546 #9189]  INFO -- : (0.000226s) PRAGMA foreign_keys = 1
+I, [2025-06-20T12:25:13.938972 #9189]  INFO -- : (0.000039s) PRAGMA case_sensitive_like = 1
+I, [2025-06-20T12:25:13.939248 #9189]  INFO -- : (0.000185s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T12:25:13.939588 #9189]  INFO -- : (0.000191s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 9) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-20T12:28:45.184976 #9189]  INFO -- : (0.000148s) SELECT count(*) AS 'count' FROM `access_logs` WHERE ((`ip_address` = '::1') AND (`endpoint` = '/api/upload') AND (accessed_at > '2025-06-20 12:27:45.184461')) LIMIT 1
+I, [2025-06-20T12:28:45.190169 #9189]  INFO -- : (0.005022s) INSERT INTO `access_logs` (`ip_address`, `endpoint`, `accessed_at`) VALUES ('::1', '/api/upload', '2025-06-20 12:28:45.185036')
+I, [2025-06-20T12:28:46.019677 #9189]  INFO -- : (0.000253s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T12:28:46.307772 #9189]  INFO -- : (0.006872s) INSERT INTO `encrypted_files` (`file_id`, `password_hash`, `salt`, `file_path`, `original_filename`, `mime_type`, `file_size`, `encryption_iv`, `created_at`, `expires_at`, `ip_address`, `account_id`) VALUES ('qTTCRxZf', '$2a$12$8xDOJK.Qyw7ylbPepmkzUeD2l.YwxCc4ExpnsXV5zGVfk8ZXyKEOu', '368a3a5aa7c278f44b73b01074a3cd7be7dfad1c577182f404ce343af942ec5d', '/home/shayan/encryptor.link/backend/storage/encrypted/qT/qTTCRxZf.enc', 'encrypted_data.json', 'application/json', 241370060, '5MjjdNixBqWbE//x', '2025-06-20 12:28:46.300580', '2025-06-21 12:28:46.300545', '::1', 9)
+I, [2025-06-20T12:29:00.192633 #9189]  INFO -- : (0.000265s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T12:29:00.193576 #9184]  INFO -- : (0.000194s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T12:29:06.844432 #9184]  INFO -- : (0.000183s) SELECT count(*) AS 'count' FROM `access_logs` WHERE ((`ip_address` = '::1') AND (`endpoint` = '/api/download') AND (accessed_at > '2025-06-20 12:28:06.843905')) LIMIT 1
+I, [2025-06-20T12:29:06.850103 #9184]  INFO -- : (0.005511s) INSERT INTO `access_logs` (`ip_address`, `endpoint`, `accessed_at`) VALUES ('::1', '/api/download', '2025-06-20 12:29:06.844517')
+I, [2025-06-20T12:29:06.850455 #9184]  INFO -- : (0.000188s) SELECT * FROM `encrypted_files` WHERE (`file_id` = 'qTTCRxZf') LIMIT 1
+I, [2025-06-20T12:29:45.356825 #9189]  INFO -- : (0.000501s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T12:29:45.357238 #9189]  INFO -- : (0.000216s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 9) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-20T12:29:45.358909 #9184]  INFO -- : (0.000275s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T12:29:45.361580 #9184]  INFO -- : (0.002489s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 9) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-20T14:09:32.983155 #22092]  INFO -- : (0.000419s) SELECT sqlite_version()
+I, [2025-06-20T14:09:32.983870 #22085]  INFO -- : (0.000354s) SELECT sqlite_version()
+I, [2025-06-20T14:09:32.984590 #22092]  INFO -- : (0.000861s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T14:09:32.984896 #22085]  INFO -- : (0.000549s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T14:10:13.376511 #22092]  INFO -- : (0.000203s) SELECT count(*) AS 'count' FROM `access_logs` WHERE ((`ip_address` = '::1') AND (`endpoint` = '/api/upload') AND (accessed_at > '2025-06-20 14:09:13.375954')) LIMIT 1
+I, [2025-06-20T14:10:13.381268 #22092]  INFO -- : (0.004596s) INSERT INTO `access_logs` (`ip_address`, `endpoint`, `accessed_at`) VALUES ('::1', '/api/upload', '2025-06-20 14:10:13.376568')
+I, [2025-06-20T14:10:13.538837 #22092]  INFO -- : (0.001121s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T14:10:13.736778 #22092]  INFO -- : (0.005584s) INSERT INTO `encrypted_files` (`file_id`, `password_hash`, `salt`, `file_path`, `original_filename`, `mime_type`, `file_size`, `encryption_iv`, `created_at`, `expires_at`, `ip_address`, `account_id`) VALUES ('K3QD45XQ', '$2a$12$kjJmhn8TcKTB8IDkRJRbT.2upGTsf5rs8yNFPphJ13g702i8ZLMqK', '38fa6c26339574c537cc44d086f45fe1a4848e5cd29adefb28c9b2dd1e5678cb', '/home/shayan/encryptor.link/backend/storage/encrypted/K3/K3QD45XQ.enc', 'encrypted_data.json', 'application/json', 41442096, 'pxNZ8LQ4x4xGDrzy', '2025-06-20 14:10:13.730456', '2025-06-21 14:10:13.730372', '::1', 9)
+I, [2025-06-20T14:10:22.146282 #22092]  INFO -- : (0.001460s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T14:10:22.148844 #22092]  INFO -- : (0.001127s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T14:10:29.824699 #22092]  INFO -- : (0.001636s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T14:10:29.826629 #22085]  INFO -- : (0.000306s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T14:10:33.020434 #22085]  INFO -- : (0.000241s) SELECT count(*) AS 'count' FROM `access_logs` WHERE ((`ip_address` = '::1') AND (`endpoint` = '/api/download') AND (accessed_at > '2025-06-20 14:09:33.019575')) LIMIT 1
+I, [2025-06-20T14:10:33.030664 #22085]  INFO -- : (0.009928s) INSERT INTO `access_logs` (`ip_address`, `endpoint`, `accessed_at`) VALUES ('::1', '/api/download', '2025-06-20 14:10:33.020589')
+I, [2025-06-20T14:10:33.031485 #22085]  INFO -- : (0.000305s) SELECT * FROM `encrypted_files` WHERE (`file_id` = 'K3QD45XQ') LIMIT 1
+I, [2025-06-20T14:16:21.308391 #22085]  INFO -- : (0.000240s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T14:16:21.310627 #22085]  INFO -- : (0.002002s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 9) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-20T14:16:21.311366 #22092]  INFO -- : (0.001029s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T14:16:21.311851 #22092]  INFO -- : (0.000289s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 9) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-20T14:17:05.797446 #22085]  INFO -- : (0.001819s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T14:17:05.797620 #22092]  INFO -- : (0.000209s) SELECT * FROM `accounts` WHERE (`id` = 9) LIMIT 1
+I, [2025-06-20T14:17:05.799188 #22092]  INFO -- : (0.001436s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 9) ORDER BY `created_at` DESC LIMIT 100
+I, [2025-06-20T14:17:05.799319 #22085]  INFO -- : (0.001688s) SELECT * FROM `encrypted_files` WHERE (`account_id` = 9) ORDER BY `created_at` DESC LIMIT 100
