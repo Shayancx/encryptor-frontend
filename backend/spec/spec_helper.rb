@@ -113,3 +113,38 @@ end
 
 # Load support files
 Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each { |f| require f }
+
+# Add helper to create test users
+def create_test_user(email = nil)
+  email ||= "test_#{SecureRandom.hex(4)}@example.com"
+  password_hash = BCrypt::Password.create('TestP@ssw0rd123!')
+  
+  id = TEST_DB[:accounts].insert(
+    email: email,
+    password_hash: password_hash,
+    status_id: 'verified',
+    created_at: Time.now
+  )
+  
+  TEST_DB[:accounts].where(id: id).first
+end
+
+# Enhanced cleanup between tests
+RSpec.configure do |config|
+  # Clean storage directory after each test
+  config.after(:each) do
+    if Dir.exist?('storage/test')
+      FileUtils.rm_rf('storage/test')
+    end
+    # Ensure tmp directory exists for tests
+    FileUtils.mkdir_p('tmp')
+  end
+  
+  # Clear all test data before suite
+  config.before(:suite) do
+    TEST_DB[:encrypted_files].delete
+    TEST_DB[:accounts].delete
+    TEST_DB[:access_logs].delete
+    TEST_DB[:password_reset_tokens].delete if TEST_DB.tables.include?(:password_reset_tokens)
+  end
+end

@@ -33,7 +33,7 @@ RSpec.describe SecureLoggerMiddleware do
       }
       
       expect(app).to receive(:call) do |filtered_env|
-        expect(filtered_env['QUERY_STRING']).to eq('password=[FILTERED]&new_password=secret2&old_password=secret3')
+        expect(filtered_env['QUERY_STRING']).to eq('password=[FILTERED]&new_password=[FILTERED]&old_password=[FILTERED]')
       end
       
       middleware.call(env)

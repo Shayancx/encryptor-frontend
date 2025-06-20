@@ -9,51 +9,13 @@ module FileStorage
   MAX_FILE_SIZE_AUTHENTICATED = 4 * 1024 * 1024 * 1024  # 4GB for authenticated users
   MAX_FILE_SIZE_ABSOLUTE = 5 * 1024 * 1024 * 1024   # 5GB absolute maximum
   
-  ALLOWED_MIME_TYPES = %w[
-    text/plain
-    text/html
-    text/css
-    text/javascript
-    application/json
-    application/pdf
-    application/zip
-    application/x-zip-compressed
-    application/x-rar-compressed
-    application/x-7z-compressed
-    application/x-tar
-    application/gzip
-    image/jpeg
-    image/png
-    image/gif
-    image/webp
-    image/svg+xml
-    image/bmp
-    video/mp4
-    video/webm
-    video/ogg
-    video/quicktime
-    video/x-msvideo
-    audio/mpeg
-    audio/wav
-    audio/flac
-    audio/ogg
-    audio/mp4
-    audio/aac
-    audio/opus
-    audio/webm
-    application/octet-stream
-  ].freeze
-  
   class << self
     def initialize_storage
       FileUtils.mkdir_p(STORAGE_PATH)
     end
     
-    # Validate the uploaded file against size and MIME type restrictions
-    # @param file_data [String] Raw binary file data
-    # @param mime_type [String] MIME type provided by the client
-    # @param max_size [Integer] Maximum allowed file size in bytes
-    # @return [Hash] Validation result with :valid boolean and optional :error
+    # Validate the uploaded file against size restrictions ONLY
+    # Accept ALL MIME types
     def validate_file(file_data, mime_type, max_size)
       # Check file size
       if file_data.bytesize > max_size
@@ -66,11 +28,7 @@ module FileStorage
         return { valid: false, error: "File exceeds absolute maximum size limit (5GB)" }
       end
       
-      # Check MIME type
-      unless ALLOWED_MIME_TYPES.include?(mime_type)
-        return { valid: false, error: "File type '#{mime_type}' is not allowed" }
-      end
-      
+      # Accept ALL MIME types - no restriction
       { valid: true }
     end
     

@@ -59,7 +59,7 @@ RSpec.describe FileStorage do
       
       mime_types.each do |mime|
         result = FileStorage.validate_file('test', mime, 1000)
-        expect(result[:valid]).to be true, "MIME type #{mime} should be accepted"
+        expect(result[:valid]).to eq(true), "MIME type #{mime} should be accepted but got: #{result[:error]}"
       end
     end
   end
@@ -191,29 +191,63 @@ RSpec.describe FileStorage do
     let(:db) { TEST_DB }
 
     before do
-      # Create expired file
-      @expired = create(:encrypted_file, expires_at: Time.now - 3600)
+      # Create test data directly in database
+      @expired_id = db[:encrypted_files].insert(
+        file_id: 'expired01',
+        password_hash: 'hash',
+        salt: 'salt',
+        file_path: FileStorage.store_encrypted_file('expired01', 'data'),
+        original_filename: 'test.txt',
+        mime_type: 'text/plain',
+        file_size: 4,
+        encryption_iv: 'iv',
+        created_at: Time.now - 7200,
+        expires_at: Time.now - 3600,
+        ip_address: '127.0.0.1'
+      )
       
-      # Create active file
-      @active = create(:encrypted_file, expires_at: Time.now + 3600)
+      @active_id = db[:encrypted_files].insert(
+        file_id: 'active001',
+        password_hash: 'hash',
+        salt: 'salt',
+        file_path: FileStorage.store_encrypted_file('active001', 'data'),
+        original_filename: 'test.txt',
+        mime_type: 'text/plain',
+        file_size: 4,
+        encryption_iv: 'iv',
+        created_at: Time.now,
+        expires_at: Time.now + 3600,
+        ip_address: '127.0.0.1'
+      )
+    end
+
+    after do
+      # Clean up
+      FileStorage.delete_file(FileStorage.generate_file_path('expired01')) rescue nil
+      FileStorage.delete_file(FileStorage.generate_file_path('active001')) rescue nil
     end
 
     it 'deletes expired files from storage' do
+      expired_path = db[:encrypted_files].where(id: @expired_id).first[:file_path]
+      active_path = db[:encrypted_files].where(id: @active_id).first[:file_path]
+      
       FileStorage.cleanup_expired_files(db)
       
-      expect(File.exist?(@expired[:file_path])).to be false
-      expect(File.exist?(@active[:file_path])).to be true
+      expect(File.exist?(expired_path)).to be false
+      expect(File.exist?(active_path)).to be true
     end
 
     it 'removes expired records from database' do
       FileStorage.cleanup_expired_files(db)
       
-      expect(db[:encrypted_files].where(id: @expired[:id]).count).to eq(0)
-      expect(db[:encrypted_files].where(id: @active[:id]).count).to eq(1)
+      expect(db[:encrypted_files].where(id: @expired_id).count).to eq(0)
+      expect(db[:encrypted_files].where(id: @active_id).count).to eq(1)
     end
 
     it 'handles missing files gracefully' do
-      File.delete(@expired[:file_path]) if File.exist?(@expired[:file_path])
+      # Delete file manually
+      expired_record = db[:encrypted_files].where(id: @expired_id).first
+      File.delete(expired_record[:file_path]) if File.exist?(expired_record[:file_path])
       
       expect {
         FileStorage.cleanup_expired_files(db)
