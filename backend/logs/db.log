@@ -250,3 +250,5 @@ I, [2025-06-19T23:06:18.981332 #4676]  INFO -- : (0.005136s) INSERT INTO `encryp
 I, [2025-06-19T23:06:32.107743 #4676]  INFO -- : (0.000146s) SELECT count(*) AS 'count' FROM `access_logs` WHERE ((`ip_address` = '127.0.0.1') AND (`endpoint` = '/api/download') AND (accessed_at > '2025-06-19 23:05:32.106277')) LIMIT 1
 I, [2025-06-19T23:06:32.117451 #4676]  INFO -- : (0.009523s) INSERT INTO `access_logs` (`ip_address`, `endpoint`, `accessed_at`) VALUES ('127.0.0.1', '/api/download', '2025-06-19 23:06:32.107845')
 I, [2025-06-19T23:06:32.120761 #4676]  INFO -- : (0.003024s) SELECT * FROM `encrypted_files` WHERE (`file_id` = 'CoYxEESh') LIMIT 1
+I, [2025-06-20T07:54:39.753791 #18510]  INFO -- : (0.000091s) SELECT sqlite_version()
+I, [2025-06-20T07:54:39.754254 #18510]  INFO -- : (0.000133s) SELECT * FROM `sqlite_master` WHERE ((`name` != 'sqlite_sequence') AND (`type` = 'table'))

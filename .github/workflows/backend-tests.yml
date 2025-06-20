@@ -1,0 +1,60 @@
+name: Backend Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-tests.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'backend/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      redis:
+        image: redis:alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.2'
+        bundler-cache: true
+        working-directory: backend
+    
+    - name: Setup test database
+      run: |
+        cd backend
+        bundle exec rake db:create
+        bundle exec rake db:migrate
+      env:
+        RACK_ENV: test
+    
+    - name: Run tests
+      run: |
+        cd backend
+        bundle exec rspec
+      env:
+        RACK_ENV: test
+        JWT_SECRET: test-secret-key
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./backend/coverage/coverage.xml
+        flags: backend
+        name: backend-coverage
