@@ -182,7 +182,41 @@ export default function EncryptPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                {/* Password Input First */}
+                {/* Message Editor */}
+                <div className="space-y-2">
+                  <Label htmlFor="message">
+                    <FileText className="mr-2 inline size-4" />
+                    Message (Optional)
+                  </Label>
+                  <TiptapEditor
+                    content={message}
+                    onChange={setMessage}
+                    placeholder="Enter your message here... You can format it using the toolbar above."
+                  />
+                </div>
+
+                {/* File Upload - Always Visible */}
+                <div className="space-y-2">
+                  <Label>
+                    Files (Optional) - Stream Upload
+                  </Label>
+                  {password ? (
+                    <StreamingUpload
+                      password={password}
+                      authToken={authToken || undefined}
+                      onUploadComplete={handleFileUploadComplete}
+                      uploadLimitMB={uploadLimitMB}
+                    />
+                  ) : (
+                    <Alert>
+                      <AlertDescription>
+                        Please enter a password below to enable file uploads
+                      </AlertDescription>
+                    </Alert>
+                  )}
+                </div>
+
+                {/* Password Input */}
                 <div className="space-y-2">
                   <Label htmlFor="password">
                     <Lock className="mr-2 inline size-4" />
@@ -198,43 +232,20 @@ export default function EncryptPage() {
                   <p className="text-xs text-muted-foreground">
                     Choose a strong password. Only a salted hash will be stored on the server.
                   </p>
-                </div>
-
-                {/* Message Editor */}
-                <div className="space-y-2">
-                  <Label htmlFor="message">
-                    <FileText className="mr-2 inline size-4" />
-                    Message (Optional)
-                  </Label>
-                  <TiptapEditor
-                    content={message}
-                    onChange={setMessage}
-                    placeholder="Enter your message here... You can format it using the toolbar above."
-                  />
-                  {message && (
-                    <Button
-                      onClick={handleEncryptMessage}
-                      disabled={isEncrypting || !password}
-                      className="w-full mt-2"
-                    >
-                      {isEncrypting ? "Encrypting..." : "Encrypt Message"}
-                    </Button>
+                  {password && validatePassword(password) && (
+                    <p className="text-xs text-destructive">{validatePassword(password)}</p>
                   )}
                 </div>
 
-                {/* Streaming File Upload */}
-                {password && validatePassword(password) === null && (
-                  <div className="space-y-2">
-                    <Label>
-                      Files (Optional) - Stream Upload
-                    </Label>
-                    <StreamingUpload
-                      password={password}
-                      authToken={authToken || undefined}
-                      onUploadComplete={handleFileUploadComplete}
-                      uploadLimitMB={uploadLimitMB}
-                    />
-                  </div>
+                {/* Encrypt Message Button */}
+                {message && (
+                  <Button
+                    onClick={handleEncryptMessage}
+                    disabled={isEncrypting || !password || validatePassword(password) !== null}
+                    className="w-full"
+                  >
+                    {isEncrypting ? "Encrypting..." : "Encrypt Message"}
+                  </Button>
                 )}
               </CardContent>
             </Card>
