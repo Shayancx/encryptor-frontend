@@ -405,23 +405,24 @@ class EncryptorAPI < Roda
       end
       
       
-      # Streaming upload endpoints
+                  # Streaming upload endpoints
       r.on 'streaming' do
         # Initialize streaming upload session
         r.post 'initialize' do
           begin
-            data = request.params
+            # Parse JSON body
+            data = JSON.parse(request.body.read) rescue request.params
             
             unless data['filename'] && data['fileSize'] && data['mimeType'] && data['password']
               response.status = 400
-              return { error: 'Missing required fields: filename, fileSize, mimeType, password' }
+              next { error: 'Missing required fields: filename, fileSize, mimeType, password' }
             end
             
             # Validate password
             password_check = Crypto.validate_password_strength(data['password'])
             unless password_check[:valid]
               response.status = 400
-              return { error: password_check[:error] }
+              next { error: password_check[:error] }
             end
             
             # Check file size limit
@@ -430,7 +431,7 @@ class EncryptorAPI < Roda
             
             if file_size > max_size
               response.status = 400
-              return { 
+              next { 
                 error: "File too large. Max size: #{max_size / 1024 / 1024}MB",
                 authenticated: authenticated?,
                 upgrade_available: !authenticated?
@@ -464,33 +465,66 @@ class EncryptorAPI < Roda
           end
         end
         
-        # Upload chunk
+        # Upload chunk - handle multipart form data
         r.post 'chunk' do
           begin
-            # Handle multipart form data
+            # Debug logging
+            LOGGER.info "Chunk upload request received"
+            LOGGER.info "Content-Type: #{request.content_type}"
+            LOGGER.info "Params keys: #{request.params.keys.join(', ')}"
+            
+            # Parse parameters
             session_id = request.params['session_id']
-            chunk_index = request.params['chunk_index'].to_i
+            chunk_index = request.params['chunk_index']
             iv = request.params['iv']
             
-            # Get chunk data from uploaded file
-            chunk_file = request.params['chunk_data']
-            if chunk_file.respond_to?(:read)
-              chunk_data = chunk_file.read
-            elsif chunk_file.respond_to?(:[]) && chunk_file[:tempfile]
-              chunk_data = chunk_file[:tempfile].read
+            # Validate parameters
+            unless session_id && chunk_index && iv
+              response.status = 400
+              next { error: "Missing required fields: session_id=#{session_id.inspect}, chunk_index=#{chunk_index.inspect}, iv=#{iv.inspect}" }
+            end
+            
+            chunk_index = chunk_index.to_i
+            
+            # Handle chunk data - support multiple upload formats
+            chunk_data = nil
+            
+            # Try to get chunk data from various possible formats
+            if request.params['chunk_data']
+              chunk_param = request.params['chunk_data']
+              
+              if chunk_param.is_a?(String)
+                # Base64 encoded data
+                chunk_data = chunk_param
+              elsif chunk_param.respond_to?(:read)
+                # Rack::Multipart::UploadedFile or similar
+                chunk_data = chunk_param.read
+              elsif chunk_param.is_a?(Hash) && chunk_param[:tempfile]
+                # Standard Rack file upload hash
+                chunk_data = chunk_param[:tempfile].read
+              elsif chunk_param.is_a?(Hash) && chunk_param['tempfile']
+                # String keys variant
+                chunk_data = chunk_param['tempfile'].read
+              else
+                LOGGER.error "Unknown chunk_data format: #{chunk_param.class}"
+                response.status = 400
+                next { error: "Invalid chunk data format: #{chunk_param.class}" }
+              end
             else
+              LOGGER.error "No chunk_data in params"
               response.status = 400
-              return { error: "Invalid chunk data format" }
+              next { error: 'Missing chunk_data parameter' }
             end
             
-            unless session_id && !chunk_index.nil? && chunk_data && iv
+            unless chunk_data
               response.status = 400
-              return { error: 'Missing required fields: session_id, chunk_index, chunk_data, iv' }
+              next { error: 'Could not read chunk data' }
             end
             
+            # Store chunk
             result = StreamingUpload.store_chunk(session_id, chunk_index, chunk_data, iv)
             
-            LOGGER.info "Chunk #{chunk_index} stored for session: #{session_id}"
+            LOGGER.info "Chunk #{chunk_index} stored for session: #{session_id} (#{result[:chunks_received]}/#{result[:total_chunks]})"
             
             result
           rescue => e
@@ -504,13 +538,13 @@ class EncryptorAPI < Roda
         # Finalize upload
         r.post 'finalize' do
           begin
-            data = request.params
+            data = JSON.parse(request.body.read) rescue request.params
             session_id = data['session_id']
             salt = data['salt']
             
             unless session_id && salt
               response.status = 400
-              return { error: 'Missing required fields: session_id, salt' }
+              next { error: 'Missing required fields: session_id, salt' }
             end
             
             file_id = StreamingUpload.finalize_session(session_id, salt)
@@ -544,12 +578,12 @@ class EncryptorAPI < Roda
         # Download chunk
         r.post 'download', String, 'chunk', Integer do |file_id, chunk_index|
           begin
-            data = request.params
+            data = JSON.parse(request.body.read) rescue request.params
             password = data['password']
             
             unless password
               response.status = 401
-              return { error: 'Password required' }
+              next { error: 'Password required' }
             end
             
             chunk_data = StreamingUpload.read_chunk(file_id, chunk_index, password)

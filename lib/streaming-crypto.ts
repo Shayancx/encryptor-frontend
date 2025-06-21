@@ -98,127 +98,36 @@ export async function initializeStreamingUpload(
     headers['Authorization'] = `Bearer ${authToken}`
   }
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:9292/api'}/streaming/initialize`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({
-      filename,
-      fileSize,
-      mimeType,
-      totalChunks,
-      chunkSize: CHUNK_SIZE,
-      password
-    })
-  })
-
-  if (!response.ok) {
-    const error = await response.text()
-    throw new Error(`Failed to initialize streaming upload: ${error}`)
-  }
-
-  const data = await response.json()
-  return {
-    sessionId: data.session_id,
-    fileId: data.file_id,
-    totalChunks,
-    uploadedChunks: 0
-  }
-}
-
-/**
- * Encrypt and upload a single chunk with retry logic
- */
-async function uploadChunkWithRetry(
-  chunk: ArrayBuffer,
-  chunkIndex: number,
-  session: StreamingUploadSession,
-  password: string,
-  salt: Uint8Array,
-  maxRetries: number = 3,
-  onProgress?: (uploaded: number, total: number) => void,
-  signal?: AbortSignal
-): Promise<void> {
-  let lastError: Error | null = null
+  // Upload chunk with detailed error handling
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
   
-  for (let attempt = 0; attempt < maxRetries; attempt++) {
-    try {
-      if (signal?.aborted) {
-        throw new Error('Upload cancelled')
-      }
-      
-      await encryptAndUploadChunk(chunk, chunkIndex, session, password, salt, onProgress, signal)
-      return // Success
-    } catch (error) {
-      lastError = error as Error
-      
-      // Don't retry on abort
-      if (error instanceof Error && error.message === 'Upload cancelled') {
-        throw error
-      }
-      
-      // Exponential backoff
-      if (attempt < maxRetries - 1) {
-        const delay = Math.pow(2, attempt) * 1000
-        await new Promise((resolve, reject) => {
-          const timeout = setTimeout(resolve, delay)
-          signal?.addEventListener('abort', () => {
-            clearTimeout(timeout)
-            reject(new Error('Upload cancelled'))
-          })
-        })
-      }
-    }
-  }
-  
-  throw new Error(`Failed to upload chunk ${chunkIndex} after ${maxRetries} attempts: ${lastError?.message}`)
-}
-
-/**
- * Encrypt and upload a single chunk
- */
-export async function encryptAndUploadChunk(
-  chunk: ArrayBuffer,
-  chunkIndex: number,
-  session: StreamingUploadSession,
-  password: string,
-  salt: Uint8Array,
-  onProgress?: (uploaded: number, total: number) => void,
-  signal?: AbortSignal
-): Promise<void> {
-  // Generate unique IV for this chunk
-  const iv = crypto.getRandomValues(new Uint8Array(12))
-  
-  // Derive key
-  const key = await deriveKey(password, salt)
-  
-  // Encrypt chunk
-  const encryptedData = await crypto.subtle.encrypt(
-    {
-      name: 'AES-GCM',
-      iv: iv
-    },
-    key,
-    chunk
-  )
-
-  // Create form data for chunk upload
-  const formData = new FormData()
-  formData.append('session_id', session.sessionId)
-  formData.append('chunk_index', chunkIndex.toString())
-  
-  // Create a proper file blob with content type
-  const encryptedBlob = new Blob([encryptedData], { type: 'application/octet-stream' })
-  formData.append('chunk_data', encryptedBlob, `chunk_${chunkIndex}.enc`)
-  
-  formData.append('iv', arrayBufferToBase64(iv.buffer))
-  formData.append('chunk_size', chunk.byteLength.toString())
-
-  // Upload chunk
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:9292/api'}/streaming/chunk`, {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:9292/api'}/streaming/chunk`, {
     method: 'POST',
     body: formData,
     signal
   })
+    
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      let errorMessage = 'Upload failed';
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.error || errorMessage;
+      } catch {
+        errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+      }
+      throw new Error(`Failed to upload chunk ${chunkIndex}: ${errorMessage}`)
+    }
+
+    const result = await response.json();
+    
+    // Validate response
+    if (!result.chunks_received || !result.total_chunks) {
+      throw new Error(`Invalid response for chunk ${chunkIndex}`)
+    }
 
   if (!response.ok) {
     const error = await response.text()

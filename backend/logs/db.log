@@ -452,3 +452,11 @@ I, [2025-06-21T03:47:57.551494 #8006]  INFO -- : (0.000341s) SELECT sqlite_versi
 I, [2025-06-21T03:47:57.552634 #8006]  INFO -- : (0.000684s) SELECT * FROM `accounts` WHERE (`id` = 1) LIMIT 1
 I, [2025-06-21T03:47:57.552638 #8001]  INFO -- : (0.000677s) SELECT * FROM `accounts` WHERE (`id` = 1) LIMIT 1
 I, [2025-06-21T03:48:26.836498 #8006]  INFO -- : (0.000403s) SELECT * FROM `accounts` WHERE (`id` = 1) LIMIT 1
+I, [2025-06-21T13:12:52.033919 #15813]  INFO -- : (0.000105s) SELECT sqlite_version()
+I, [2025-06-21T13:12:52.037660 #15813]  INFO -- : (0.003420s) INSERT INTO `encrypted_files` (`file_id`, `password_hash`, `salt`, `file_path`, `original_filename`, `mime_type`, `file_size`, `encryption_iv`, `created_at`, `expires_at`, `ip_address`, `account_id`, `is_chunked`) VALUES ('85MwBgYs', '$2a$12$fq6cHVr4zNk3LIc4DQvisuyIbHeUoo6ZZH2FBlTM2H3xrRLdYnsYi', 'f936a5d95f3a37763f8f837e9eb2d90b1c7c391529bedc57efc68ed6c7183149', '/home/shayan/encryptor.link/backend/storage/encrypted/85/85MwBgYs.enc', 'test.txt', 'text/plain', 1048576, '', '2025-06-21 13:12:52.033717', '2025-06-22 13:12:52.033644', '127.0.0.1', NULL, 1)
+I, [2025-06-21T13:12:52.038635 #15813]  INFO -- : (0.000376s) SELECT * FROM `encrypted_files` WHERE (`file_id` = '85MwBgYs') LIMIT 1
+I, [2025-06-21T13:12:52.042172 #15813]  INFO -- : (0.003286s) DELETE FROM `encrypted_files` WHERE (`file_id` = '85MwBgYs')
+I, [2025-06-21T13:17:26.941886 #17555]  INFO -- : (0.000109s) SELECT sqlite_version()
+I, [2025-06-21T13:17:26.945452 #17555]  INFO -- : (0.003309s) INSERT INTO `encrypted_files` (`file_id`, `password_hash`, `salt`, `file_path`, `original_filename`, `mime_type`, `file_size`, `encryption_iv`, `created_at`, `expires_at`, `ip_address`, `account_id`, `is_chunked`) VALUES ('AlZUvbEz', '$2a$12$rxy1et5A0qR41q5HYQcCXOm9DT4AIsN3OMHgbqcrBjZaYGy5jvQCW', '2f5b0fe871cd224eb3235022bf5e40f4d02d0fdcfa216b60ad30ec7108338482', '/home/shayan/encryptor.link/backend/storage/encrypted/Al/AlZUvbEz.enc', 'test.txt', 'text/plain', 1048576, '', '2025-06-21 13:17:26.941675', '2025-06-22 13:17:26.941602', '127.0.0.1', NULL, 1)
+I, [2025-06-21T13:17:26.946463 #17555]  INFO -- : (0.000409s) SELECT * FROM `encrypted_files` WHERE (`file_id` = 'AlZUvbEz') LIMIT 1
+I, [2025-06-21T13:17:26.950037 #17555]  INFO -- : (0.003293s) DELETE FROM `encrypted_files` WHERE (`file_id` = 'AlZUvbEz')
