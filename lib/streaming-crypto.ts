@@ -28,6 +28,30 @@ const CHUNK_SIZE = 1024 * 1024 // 1MB chunks
 const PBKDF2_ITERATIONS = 250000
 
 /**
+ * Convert ArrayBuffer to base64 string safely
+ */
+function arrayBufferToBase64(buffer: ArrayBuffer): string {
+  const bytes = new Uint8Array(buffer)
+  let binary = ''
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i])
+  }
+  return btoa(binary)
+}
+
+/**
+ * Convert base64 string to ArrayBuffer
+ */
+function base64ToArrayBuffer(base64: string): ArrayBuffer {
+  const binary = atob(base64)
+  const bytes = new Uint8Array(binary.length)
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i)
+  }
+  return bytes.buffer
+}
+
+/**
  * Derive encryption key from password
  */
 async function deriveKey(password: string, salt: Uint8Array): Promise<CryptoKey> {
@@ -83,12 +107,13 @@ export async function initializeStreamingUpload(
       mimeType,
       totalChunks,
       chunkSize: CHUNK_SIZE,
-      password // Server will hash this
+      password
     })
   })
 
   if (!response.ok) {
-    throw new Error('Failed to initialize streaming upload')
+    const error = await response.text()
+    throw new Error(`Failed to initialize streaming upload: ${error}`)
   }
 
   const data = await response.json()
@@ -101,6 +126,54 @@ export async function initializeStreamingUpload(
 }
 
 /**
+ * Encrypt and upload a single chunk with retry logic
+ */
+async function uploadChunkWithRetry(
+  chunk: ArrayBuffer,
+  chunkIndex: number,
+  session: StreamingUploadSession,
+  password: string,
+  salt: Uint8Array,
+  maxRetries: number = 3,
+  onProgress?: (uploaded: number, total: number) => void,
+  signal?: AbortSignal
+): Promise<void> {
+  let lastError: Error | null = null
+  
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      if (signal?.aborted) {
+        throw new Error('Upload cancelled')
+      }
+      
+      await encryptAndUploadChunk(chunk, chunkIndex, session, password, salt, onProgress, signal)
+      return // Success
+    } catch (error) {
+      lastError = error as Error
+      
+      // Don't retry on abort
+      if (error instanceof Error && error.message === 'Upload cancelled') {
+        throw error
+      }
+      
+      // Exponential backoff
+      if (attempt < maxRetries - 1) {
+        const delay = Math.pow(2, attempt) * 1000
+        await new Promise((resolve, reject) => {
+          const timeout = setTimeout(resolve, delay)
+          signal?.addEventListener('abort', () => {
+            clearTimeout(timeout)
+            reject(new Error('Upload cancelled'))
+          })
+        })
+      }
+    }
+  }
+  
+  throw new Error(`Failed to upload chunk ${chunkIndex} after ${maxRetries} attempts: ${lastError?.message}`)
+}
+
+/**
  * Encrypt and upload a single chunk
  */
 export async function encryptAndUploadChunk(
@@ -109,7 +182,8 @@ export async function encryptAndUploadChunk(
   session: StreamingUploadSession,
   password: string,
   salt: Uint8Array,
-  onProgress?: (uploaded: number, total: number) => void
+  onProgress?: (uploaded: number, total: number) => void,
+  signal?: AbortSignal
 ): Promise<void> {
   // Generate unique IV for this chunk
   const iv = crypto.getRandomValues(new Uint8Array(12))
@@ -131,18 +205,24 @@ export async function encryptAndUploadChunk(
   const formData = new FormData()
   formData.append('session_id', session.sessionId)
   formData.append('chunk_index', chunkIndex.toString())
-  formData.append('chunk_data', new Blob([encryptedData]))
-  formData.append('iv', btoa(String.fromCharCode(...iv)))
+  
+  // Create a proper file blob with content type
+  const encryptedBlob = new Blob([encryptedData], { type: 'application/octet-stream' })
+  formData.append('chunk_data', encryptedBlob, `chunk_${chunkIndex}.enc`)
+  
+  formData.append('iv', arrayBufferToBase64(iv.buffer))
   formData.append('chunk_size', chunk.byteLength.toString())
 
   // Upload chunk
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:9292/api'}/streaming/chunk`, {
     method: 'POST',
-    body: formData
+    body: formData,
+    signal
   })
 
   if (!response.ok) {
-    throw new Error(`Failed to upload chunk ${chunkIndex}`)
+    const error = await response.text()
+    throw new Error(`Failed to upload chunk ${chunkIndex}: ${error}`)
   }
 
   session.uploadedChunks++
@@ -170,7 +250,8 @@ export async function finalizeStreamingUpload(
   })
 
   if (!response.ok) {
-    throw new Error('Failed to finalize upload')
+    const error = await response.text()
+    throw new Error(`Failed to finalize upload: ${error}`)
   }
 
   const data = await response.json()
@@ -181,50 +262,21 @@ export async function finalizeStreamingUpload(
 }
 
 /**
- * Process file in chunks using Streams API
+ * Optimized file chunk reading
  */
 export async function* readFileInChunks(
   file: File,
   chunkSize: number = CHUNK_SIZE
 ): AsyncGenerator<ArrayBuffer, void, undefined> {
-  const reader = file.stream().getReader()
-  let buffer = new Uint8Array(0)
-
-  try {
-    while (true) {
-      const { done, value } = await reader.read()
-      
-      if (done && buffer.length === 0) {
-        break
-      }
-
-      if (value) {
-        // Concatenate with existing buffer
-        const newBuffer = new Uint8Array(buffer.length + value.length)
-        newBuffer.set(buffer)
-        newBuffer.set(value, buffer.length)
-        buffer = newBuffer
-      }
-
-      // Yield complete chunks
-      while (buffer.length >= chunkSize || (done && buffer.length > 0)) {
-        const chunkEnd = Math.min(chunkSize, buffer.length)
-        const chunk = buffer.slice(0, chunkEnd)
-        buffer = buffer.slice(chunkEnd)
-        
-        yield chunk.buffer
-        
-        if (done && buffer.length === 0) {
-          break
-        }
-      }
-
-      if (done) {
-        break
-      }
-    }
-  } finally {
-    reader.releaseLock()
+  let offset = 0
+  
+  while (offset < file.size) {
+    const end = Math.min(offset + chunkSize, file.size)
+    const slice = file.slice(offset, end)
+    const arrayBuffer = await slice.arrayBuffer()
+    
+    yield arrayBuffer
+    offset = end
   }
 }
 
@@ -235,11 +287,12 @@ export async function streamEncryptAndUpload(
   file: File,
   password: string,
   authToken?: string,
-  onProgress?: (progress: number) => void
+  onProgress?: (progress: number) => void,
+  signal?: AbortSignal
 ): Promise<{ fileId: string; shareableLink: string }> {
   // Generate salt for this upload
   const salt = crypto.getRandomValues(new Uint8Array(32))
-  const saltBase64 = btoa(String.fromCharCode(...salt))
+  const saltBase64 = arrayBufferToBase64(salt.buffer)
 
   // Initialize session
   const session = await initializeStreamingUpload(
@@ -254,37 +307,55 @@ export async function streamEncryptAndUpload(
   const uploadPromises: Promise<void>[] = []
   const MAX_CONCURRENT_UPLOADS = 3
 
-  // Process file in chunks
-  for await (const chunk of readFileInChunks(file)) {
-    // Wait if we have too many concurrent uploads
-    if (uploadPromises.length >= MAX_CONCURRENT_UPLOADS) {
-      await Promise.race(uploadPromises)
-      uploadPromises.splice(0, uploadPromises.findIndex(p => p === undefined) + 1)
-    }
-
-    // Upload chunk (don't await, let it run in parallel)
-    const uploadPromise = encryptAndUploadChunk(
-      chunk,
-      chunkIndex,
-      session,
-      password,
-      salt,
-      (uploaded, total) => {
-        if (onProgress) {
-          onProgress((uploaded / total) * 100)
+  try {
+    // Process file in chunks
+    for await (const chunk of readFileInChunks(file)) {
+      if (signal?.aborted) {
+        throw new Error('Upload cancelled')
+      }
+      
+      // Wait if we have too many concurrent uploads
+      while (uploadPromises.length >= MAX_CONCURRENT_UPLOADS) {
+        await Promise.race(uploadPromises)
+        // Remove completed promises
+        for (let i = uploadPromises.length - 1; i >= 0; i--) {
+          await uploadPromises[i].catch(() => {}) // Ignore errors here, they'll be thrown by Promise.all
+          if (await Promise.race([uploadPromises[i], Promise.resolve('done')]) === 'done') {
+            uploadPromises.splice(i, 1)
+          }
         }
       }
-    )
 
-    uploadPromises.push(uploadPromise)
-    chunkIndex++
+      // Upload chunk with retry
+      const uploadPromise = uploadChunkWithRetry(
+        chunk,
+        chunkIndex,
+        session,
+        password,
+        salt,
+        3, // max retries
+        (uploaded, total) => {
+          if (onProgress) {
+            onProgress((uploaded / total) * 100)
+          }
+        },
+        signal
+      )
+
+      uploadPromises.push(uploadPromise)
+      chunkIndex++
+    }
+
+    // Wait for all uploads to complete
+    await Promise.all(uploadPromises)
+
+    // Finalize upload
+    return finalizeStreamingUpload(session, saltBase64)
+  } catch (error) {
+    // Clean up on error
+    console.error('Upload failed:', error)
+    throw error
   }
-
-  // Wait for all uploads to complete
-  await Promise.all(uploadPromises)
-
-  // Finalize upload
-  return finalizeStreamingUpload(session, saltBase64)
 }
 
 /**
@@ -305,7 +376,7 @@ export async function streamDownloadAndDecrypt(
   }
 
   const fileInfo = await infoResponse.json()
-  const salt = new Uint8Array(atob(fileInfo.salt).split('').map(c => c.charCodeAt(0)))
+  const salt = new Uint8Array(base64ToArrayBuffer(fileInfo.salt))
   const key = await deriveKey(password, salt)
 
   const decryptedChunks: ArrayBuffer[] = []
@@ -328,14 +399,14 @@ export async function streamDownloadAndDecrypt(
     }
 
     const chunkData = await chunkResponse.json()
-    const encryptedData = new Uint8Array(atob(chunkData.data).split('').map(c => c.charCodeAt(0)))
-    const iv = new Uint8Array(atob(chunkData.iv).split('').map(c => c.charCodeAt(0)))
+    const encryptedData = base64ToArrayBuffer(chunkData.data)
+    const iv = base64ToArrayBuffer(chunkData.iv)
 
     // Decrypt chunk
     const decryptedChunk = await crypto.subtle.decrypt(
       {
         name: 'AES-GCM',
-        iv: iv
+        iv: new Uint8Array(iv)
       },
       key,
       encryptedData

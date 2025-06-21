@@ -70,60 +70,59 @@ module StreamingUpload
         raise "Invalid session: #{session_id}"
       end
       
-      begin
-        # Get metadata from cache or file
-        metadata = nil
-        @mutex.synchronize do
-          metadata = @sessions[session_id]
-        end
+      # Use file locking for metadata updates
+      metadata_file = File.join(session_path, 'metadata.json')
+      metadata = nil
+      
+      File.open(metadata_file, File::RDWR) do |f|
+        f.flock(File::LOCK_EX)
         
-        if metadata.nil?
-          metadata_file = File.join(session_path, 'metadata.json')
-          File.open(metadata_file, 'r') do |f|
-            f.flock(File::LOCK_SH)
-            content = f.read
-            metadata = JSON.parse(content) if content && !content.empty?
-            f.flock(File::LOCK_UN)
-          end
-        end
+        # Read current metadata
+        f.rewind
+        content = f.read
+        metadata = JSON.parse(content)
         
-        raise "Session metadata not found" unless metadata
-        
-        # Store chunk
+        # Store chunk with atomic write
         chunk_file = File.join(session_path, "chunk_#{chunk_index}")
-        File.open(chunk_file, 'wb') do |f|
-          f.write(chunk_data)
+        temp_file = "#{chunk_file}.tmp"
+        
+        File.open(temp_file, 'wb') do |cf|
+          cf.write(chunk_data)
+          cf.fsync  # Force write to disk
         end
         
-        # Store chunk IV
-        iv_file = File.join(session_path, "chunk_#{chunk_index}.iv")
-        File.write(iv_file, iv)
+        # Atomic rename
+        File.rename(temp_file, chunk_file)
         
-        # Update metadata with thread safety
-        @mutex.synchronize do
-          metadata['chunks_received'] ||= []
-          metadata['chunks_received'] << chunk_index unless metadata['chunks_received'].include?(chunk_index)
-          metadata['chunks_received'].sort!
-          @sessions[session_id] = metadata
-        end
+        # Store IV
+        File.write("#{chunk_file}.iv", iv)
         
-        # Persist to file
-        metadata_file = File.join(session_path, 'metadata.json')
-        File.open(metadata_file, 'w') do |f|
-          f.flock(File::LOCK_EX)
-          f.write(metadata.to_json)
-          f.flock(File::LOCK_UN)
-        end
+        # Update metadata
+        metadata['chunks_received'] ||= []
+        metadata['chunks_received'] << chunk_index unless metadata['chunks_received'].include?(chunk_index)
+        metadata['chunks_received'].sort!
         
-        {
-          chunks_received: metadata['chunks_received'].length,
-          total_chunks: metadata['total_chunks']
-        }
-      rescue => e
-        puts "Error storing chunk: #{e.message}"
-        puts e.backtrace
-        raise e
+        # Write updated metadata
+        f.rewind
+        f.truncate(0)
+        f.write(metadata.to_json)
+        f.fsync
       end
+      
+      # Update cache
+      @mutex.synchronize do
+        @sessions[session_id] = metadata if @sessions[session_id]
+      end
+      
+      # Return status
+      {
+        chunks_received: metadata['chunks_received'].length,
+        total_chunks: metadata['total_chunks']
+      }
+    rescue => e
+      puts "Error storing chunk: #{e.message}"
+      puts e.backtrace
+      raise e
     end
     
     def finalize_session(session_id, salt)
@@ -150,6 +149,14 @@ module StreamingUpload
         if received_chunks != expected_chunks
           missing = expected_chunks - received_chunks
           raise "Missing chunks: #{missing.join(', ')} (received #{received_chunks.length} of #{metadata['total_chunks']})"
+        end
+        
+        # Verify all chunks are valid before combining
+        metadata['total_chunks'].times do |i|
+          chunk_file = File.join(session_path, "chunk_#{i}")
+          unless File.exist?(chunk_file) && File.size(chunk_file) > 0
+            raise "Invalid or missing chunk #{i}"
+          end
         end
         
         # Combine chunks into final file
@@ -317,7 +324,16 @@ module StreamingUpload
         next unless File.exist?(metadata_file)
         
         begin
-          metadata = JSON.parse(File.read(metadata_file))
+          # Use shared lock for reading
+          metadata = File.open(metadata_file, 'r') do |f|
+            f.flock(File::LOCK_SH)
+            content = f.read
+            f.flock(File::LOCK_UN)
+            JSON.parse(content) if content && !content.empty?
+          end
+          
+          next unless metadata
+          
           # Remove sessions older than 1 hour
           if Time.now.to_i - metadata['created_at'] > 3600
             FileUtils.rm_rf(session_path)
@@ -336,3 +352,11 @@ end
 
 # Initialize storage when module is loaded
 StreamingUpload.initialize_storage
+
+# Start cleanup thread
+Thread.new do
+  loop do
+    StreamingUpload.cleanup_old_sessions
+    sleep 300 # Run every 5 minutes
+  end
+end

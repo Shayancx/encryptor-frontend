@@ -101,12 +101,20 @@ export function StreamingUpload({
         (progress) => {
           setUploads(prev => {
             const next = new Map(prev)
-            const upload = next.get(file.name)!
-            upload.progress = progress
+            const upload = next.get(file.name)
+            if (upload) {
+              upload.progress = progress
+            }
             return next
           })
-        }
+        },
+        controller.signal
       )
+
+      // Verify upload completed
+      if (!result.fileId) {
+        throw new Error('Upload completed but no file ID received')
+      }
 
       setUploads(prev => {
         const next = new Map(prev)
@@ -123,6 +131,11 @@ export function StreamingUpload({
         description: `${file.name} uploaded successfully`
       })
     } catch (error: any) {
+      if (error.name === 'AbortError' || error.message === 'Upload cancelled') {
+        // User cancelled
+        return
+      }
+      
       setUploads(prev => {
         const next = new Map(prev)
         const upload = next.get(file.name)!
@@ -136,6 +149,9 @@ export function StreamingUpload({
         description: error.message,
         variant: "destructive"
       })
+      
+      // Log error for debugging
+      console.error('Upload failed:', error)
     } finally {
       abortControllers.current.delete(file.name)
     }
@@ -220,6 +236,7 @@ export function StreamingUpload({
           {disabled && (
             <span className="block text-destructive">Enter a valid password above to enable uploads</span>
           )}
+          {!disabled && (
             <>
               Drag and drop files here, or{' '}
               <span className="font-medium text-primary hover:underline">
