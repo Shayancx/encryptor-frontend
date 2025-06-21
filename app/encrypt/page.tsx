@@ -195,28 +195,7 @@ export default function EncryptPage() {
                   />
                 </div>
 
-                {/* File Upload - Always Visible */}
-                <div className="space-y-2">
-                  <Label>
-                    Files (Optional) - Stream Upload
-                  </Label>
-                  {password ? (
-                    <StreamingUpload
-                      password={password}
-                      authToken={authToken || undefined}
-                      onUploadComplete={handleFileUploadComplete}
-                      uploadLimitMB={uploadLimitMB}
-                    />
-                  ) : (
-                    <Alert>
-                      <AlertDescription>
-                        Please enter a password below to enable file uploads
-                      </AlertDescription>
-                    </Alert>
-                  )}
-                </div>
-
-                {/* Password Input */}
+                {/* Password Input - Moved before file upload */}
                 <div className="space-y-2">
                   <Label htmlFor="password">
                     <Lock className="mr-2 inline size-4" />
@@ -234,6 +213,25 @@ export default function EncryptPage() {
                   </p>
                   {password && validatePassword(password) && (
                     <p className="text-xs text-destructive">{validatePassword(password)}</p>
+                  )}
+                </div>
+
+                {/* File Upload - Always Visible */}
+                <div className="space-y-2">
+                  <Label>
+                    Files (Optional) - Stream Upload
+                  </Label>
+                  <StreamingUpload
+                    password={password}
+                    authToken={authToken || undefined}
+                    onUploadComplete={handleFileUploadComplete}
+                    uploadLimitMB={uploadLimitMB}
+                    disabled={!password || validatePassword(password) !== null}
+                  />
+                  {(!password || validatePassword(password) !== null) && (
+                    <p className="text-xs text-muted-foreground">
+                      Please enter a valid password above to enable file uploads
+                    </p>
                   )}
                 </div>
 

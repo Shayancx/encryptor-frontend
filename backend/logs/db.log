@@ -435,3 +435,13 @@ I, [2025-06-21T03:09:49.429996 #30986]  INFO -- : (0.000333s) SELECT * FROM `acc
 I, [2025-06-21T03:10:03.833642 #30991]  INFO -- : (0.000298s) SELECT * FROM `accounts` WHERE (`id` = 1) LIMIT 1
 I, [2025-06-21T03:10:40.021425 #989]  INFO -- : (0.000350s) SELECT sqlite_version()
 I, [2025-06-21T03:10:40.022481 #989]  INFO -- : (0.000552s) SELECT * FROM `accounts` WHERE (`id` = 1) LIMIT 1
+I, [2025-06-21T03:19:46.782299 #2724]  INFO -- : (0.000385s) SELECT sqlite_version()
+I, [2025-06-21T03:19:46.783413 #2724]  INFO -- : (0.000589s) SELECT * FROM `accounts` WHERE (`id` = 1) LIMIT 1
+I, [2025-06-21T03:24:01.875059 #3730]  INFO -- : (0.000152s) SELECT sqlite_version()
+I, [2025-06-21T03:24:01.875408 #3730]  INFO -- : (0.000129s) SELECT * FROM `sqlite_master` WHERE ((`name` != 'sqlite_sequence') AND (`type` = 'table'))
+I, [2025-06-21T03:24:01.875612 #3730]  INFO -- : (0.000107s) SELECT * FROM `sqlite_master` WHERE ((`name` != 'sqlite_sequence') AND (`type` = 'table'))
+I, [2025-06-21T03:24:24.901937 #3793]  INFO -- : (0.000293s) SELECT sqlite_version()
+I, [2025-06-21T03:24:24.901912 #3787]  INFO -- : (0.000514s) SELECT sqlite_version()
+I, [2025-06-21T03:24:24.903128 #3787]  INFO -- : (0.000657s) SELECT * FROM `accounts` WHERE (`id` = 1) LIMIT 1
+I, [2025-06-21T03:24:24.903128 #3793]  INFO -- : (0.000671s) SELECT * FROM `accounts` WHERE (`id` = 1) LIMIT 1
+I, [2025-06-21T03:24:40.995029 #3793]  INFO -- : (0.000236s) SELECT * FROM `accounts` WHERE (`id` = 1) LIMIT 1

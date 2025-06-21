@@ -1542,3 +1542,465 @@ E, [2025-06-21T03:10:43.558833 #995] ERROR -- : Chunk upload error: unexpected e
 I, [2025-06-21T03:10:43.559641 #989]  INFO -- : Chunk 84 stored for session: 6fcb8eded2c0e3d0b5cc9b0c9ff62606
 I, [2025-06-21T03:10:43.559804 #989]  INFO -- : Chunk 85 stored for session: 6fcb8eded2c0e3d0b5cc9b0c9ff62606
 I, [2025-06-21T03:10:43.561580 #989]  INFO -- : Chunk 86 stored for session: 6fcb8eded2c0e3d0b5cc9b0c9ff62606
+I, [2025-06-21T03:19:46.960696 #2724]  INFO -- : Streaming session created: fd04e4ff9b1b90a714e906eba6ddb118 for file: Berserk_1 (Kentaro Miura).mobi
+I, [2025-06-21T03:19:47.174320 #2719]  INFO -- : Chunk 0 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:47.211703 #2719]  INFO -- : Chunk 2 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:47.226712 #2724]  INFO -- : Chunk 1 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.614696 #2724]  INFO -- : Chunk 3 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.623667 #2719]  INFO -- : Chunk 4 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.659424 #2724]  INFO -- : Chunk 5 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.666900 #2719]  INFO -- : Chunk 6 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.683379 #2724]  INFO -- : Chunk 7 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.704534 #2719]  INFO -- : Chunk 8 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.708972 #2719]  INFO -- : Chunk 9 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.726089 #2724]  INFO -- : Chunk 10 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.730374 #2724]  INFO -- : Chunk 11 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.744756 #2719]  INFO -- : Chunk 14 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.755735 #2724]  INFO -- : Chunk 12 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.756899 #2719]  INFO -- : Chunk 16 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.757126 #2724]  INFO -- : Chunk 13 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.804371 #2719]  INFO -- : Chunk 18 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.807921 #2719]  INFO -- : Chunk 20 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.812564 #2719]  INFO -- : Chunk 21 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.818219 #2724]  INFO -- : Chunk 15 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+E, [2025-06-21T03:19:52.821173 #2724] ERROR -- : Chunk upload error: unexpected end of input at line 1 column 1
+I, [2025-06-21T03:19:52.826351 #2719]  INFO -- : Chunk 22 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.827093 #2724]  INFO -- : Chunk 19 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.828366 #2719]  INFO -- : Chunk 23 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.839334 #2724]  INFO -- : Chunk 24 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.840945 #2724]  INFO -- : Chunk 25 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.859401 #2719]  INFO -- : Chunk 26 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+E, [2025-06-21T03:19:52.861740 #2719] ERROR -- : Chunk upload error: unexpected end of input at line 1 column 1
+I, [2025-06-21T03:19:52.863081 #2724]  INFO -- : Chunk 29 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.864689 #2724]  INFO -- : Chunk 27 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.871136 #2719]  INFO -- : Chunk 31 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.872821 #2724]  INFO -- : Chunk 30 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.875902 #2719]  INFO -- : Chunk 32 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.952573 #2724]  INFO -- : Chunk 33 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.958816 #2719]  INFO -- : Chunk 34 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.971940 #2719]  INFO -- : Chunk 36 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.972210 #2724]  INFO -- : Chunk 35 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.988409 #2724]  INFO -- : Chunk 39 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.989316 #2719]  INFO -- : Chunk 37 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.990552 #2719]  INFO -- : Chunk 38 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:52.999115 #2724]  INFO -- : Chunk 41 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.002826 #2719]  INFO -- : Chunk 40 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.016386 #2724]  INFO -- : Chunk 42 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.023992 #2719]  INFO -- : Chunk 43 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.031727 #2724]  INFO -- : Chunk 45 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.038717 #2724]  INFO -- : Chunk 46 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.043948 #2719]  INFO -- : Chunk 44 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.054581 #2719]  INFO -- : Chunk 47 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.066325 #2724]  INFO -- : Chunk 48 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.080437 #2719]  INFO -- : Chunk 51 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.080530 #2719]  INFO -- : Chunk 50 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.081587 #2719]  INFO -- : Chunk 53 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.089687 #2719]  INFO -- : Chunk 55 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.099450 #2724]  INFO -- : Chunk 49 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.100040 #2724]  INFO -- : Chunk 52 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.107777 #2724]  INFO -- : Chunk 54 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.110931 #2719]  INFO -- : Chunk 56 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.112406 #2719]  INFO -- : Chunk 57 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.116776 #2724]  INFO -- : Chunk 58 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.128520 #2724]  INFO -- : Chunk 59 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.129079 #2719]  INFO -- : Chunk 61 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.129162 #2724]  INFO -- : Chunk 60 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.138304 #2719]  INFO -- : Chunk 62 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.145673 #2719]  INFO -- : Chunk 63 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.151046 #2724]  INFO -- : Chunk 64 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.152545 #2724]  INFO -- : Chunk 65 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.162819 #2724]  INFO -- : Chunk 67 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.163576 #2719]  INFO -- : Chunk 66 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.175069 #2724]  INFO -- : Chunk 68 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.177352 #2719]  INFO -- : Chunk 69 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.190017 #2724]  INFO -- : Chunk 70 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.191088 #2724]  INFO -- : Chunk 71 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.200567 #2719]  INFO -- : Chunk 72 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.203741 #2719]  INFO -- : Chunk 73 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.207333 #2724]  INFO -- : Chunk 74 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.215670 #2719]  INFO -- : Chunk 76 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.219521 #2724]  INFO -- : Chunk 75 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.230646 #2719]  INFO -- : Chunk 77 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.231305 #2719]  INFO -- : Chunk 78 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.239966 #2719]  INFO -- : Chunk 80 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.246062 #2724]  INFO -- : Chunk 79 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.263057 #2719]  INFO -- : Chunk 82 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.281490 #2719]  INFO -- : Chunk 84 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.295438 #2724]  INFO -- : Chunk 81 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.299501 #2724]  INFO -- : Chunk 83 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.309006 #2719]  INFO -- : Chunk 86 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.313180 #2724]  INFO -- : Chunk 85 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.313997 #2724]  INFO -- : Chunk 88 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.318228 #2719]  INFO -- : Chunk 87 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.326636 #2724]  INFO -- : Chunk 90 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.327388 #2724]  INFO -- : Chunk 91 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.333708 #2719]  INFO -- : Chunk 89 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.350219 #2724]  INFO -- : Chunk 93 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.351493 #2724]  INFO -- : Chunk 94 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.353839 #2719]  INFO -- : Chunk 92 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.361791 #2724]  INFO -- : Chunk 95 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.362278 #2724]  INFO -- : Chunk 96 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.374642 #2724]  INFO -- : Chunk 97 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.375315 #2724]  INFO -- : Chunk 98 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.391235 #2724]  INFO -- : Chunk 101 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.398175 #2719]  INFO -- : Chunk 99 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.400429 #2719]  INFO -- : Chunk 100 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.412956 #2719]  INFO -- : Chunk 105 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.427322 #2719]  INFO -- : Chunk 107 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.432135 #2724]  INFO -- : Chunk 102 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.439259 #2719]  INFO -- : Chunk 109 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.441082 #2724]  INFO -- : Chunk 104 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+E, [2025-06-21T03:19:53.441964 #2724] ERROR -- : Chunk upload error: unexpected token at end of stream '07]}' at line 1 column 646
+I, [2025-06-21T03:19:53.452504 #2719]  INFO -- : Chunk 111 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.464379 #2719]  INFO -- : Chunk 113 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.484736 #2724]  INFO -- : Chunk 108 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.484861 #2724]  INFO -- : Chunk 106 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.487591 #2719]  INFO -- : Chunk 114 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.488554 #2719]  INFO -- : Chunk 115 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+E, [2025-06-21T03:19:53.490024 #2724] ERROR -- : Chunk upload error: unexpected token at end of stream '14]}' at line 1 column 666
+I, [2025-06-21T03:19:53.491999 #2724]  INFO -- : Chunk 112 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.497856 #2724]  INFO -- : Chunk 116 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.510669 #2724]  INFO -- : Chunk 117 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.513771 #2719]  INFO -- : Chunk 118 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.514812 #2719]  INFO -- : Chunk 119 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.535305 #2724]  INFO -- : Chunk 121 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.537064 #2724]  INFO -- : Chunk 120 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.537389 #2719]  INFO -- : Chunk 122 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.542872 #2724]  INFO -- : Chunk 123 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.556453 #2719]  INFO -- : Chunk 124 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.558021 #2724]  INFO -- : Chunk 126 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.558349 #2719]  INFO -- : Chunk 125 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.568801 #2724]  INFO -- : Chunk 127 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.572869 #2719]  INFO -- : Chunk 128 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.574979 #2724]  INFO -- : Chunk 129 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.585553 #2719]  INFO -- : Chunk 130 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.588073 #2724]  INFO -- : Chunk 131 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.601339 #2719]  INFO -- : Chunk 133 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.602005 #2719]  INFO -- : Chunk 132 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.606715 #2724]  INFO -- : Chunk 134 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.617268 #2724]  INFO -- : Chunk 135 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.625161 #2719]  INFO -- : Chunk 136 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.632139 #2724]  INFO -- : Chunk 137 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.632786 #2724]  INFO -- : Chunk 138 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.644219 #2724]  INFO -- : Chunk 140 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.650463 #2719]  INFO -- : Chunk 139 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.666943 #2719]  INFO -- : Chunk 141 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.668066 #2724]  INFO -- : Chunk 142 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.668141 #2724]  INFO -- : Chunk 143 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.684859 #2724]  INFO -- : Chunk 144 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.697624 #2719]  INFO -- : Chunk 147 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.703083 #2719]  INFO -- : Chunk 149 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.713417 #2724]  INFO -- : Chunk 145 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.716325 #2719]  INFO -- : Chunk 151 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.718565 #2724]  INFO -- : Chunk 146 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.734773 #2719]  INFO -- : Chunk 154 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.734893 #2719]  INFO -- : Chunk 153 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.752078 #2719]  INFO -- : Chunk 155 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.753765 #2719]  INFO -- : Chunk 156 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.754786 #2724]  INFO -- : Chunk 148 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.756159 #2724]  INFO -- : Chunk 150 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.756626 #2724]  INFO -- : Chunk 152 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.763313 #2719]  INFO -- : Chunk 157 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.765423 #2719]  INFO -- : Chunk 158 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.771040 #2724]  INFO -- : Chunk 159 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.781461 #2724]  INFO -- : Chunk 161 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.781949 #2719]  INFO -- : Chunk 160 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.797975 #2719]  INFO -- : Chunk 162 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.800359 #2719]  INFO -- : Chunk 163 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.806901 #2724]  INFO -- : Chunk 165 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.807872 #2724]  INFO -- : Chunk 164 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.815891 #2719]  INFO -- : Chunk 166 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.823118 #2719]  INFO -- : Chunk 167 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.827203 #2724]  INFO -- : Chunk 168 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.834561 #2719]  INFO -- : Chunk 169 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.835751 #2724]  INFO -- : Chunk 170 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.843792 #2724]  INFO -- : Chunk 171 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:19:53.844526 #2719]  INFO -- : Chunk 172 stored for session: fd04e4ff9b1b90a714e906eba6ddb118
+I, [2025-06-21T03:24:41.170691 #3793]  INFO -- : Streaming session created: 7c33634b077f7db5c1e2cf4da85a4d4d for file: Berserk_1 (Kentaro Miura).mobi
+I, [2025-06-21T03:24:41.379931 #3787]  INFO -- : Chunk 0 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:41.385493 #3793]  INFO -- : Chunk 1 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:41.389785 #3793]  INFO -- : Chunk 2 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.640546 #3787]  INFO -- : Chunk 3 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.680692 #3793]  INFO -- : Chunk 4 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.689808 #3787]  INFO -- : Chunk 5 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.711733 #3787]  INFO -- : Chunk 7 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.715736 #3793]  INFO -- : Chunk 6 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.726456 #3793]  INFO -- : Chunk 8 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.737644 #3787]  INFO -- : Chunk 9 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.761009 #3793]  INFO -- : Chunk 10 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.762057 #3793]  INFO -- : Chunk 11 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.762219 #3787]  INFO -- : Chunk 12 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.776975 #3787]  INFO -- : Chunk 15 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.791435 #3787]  INFO -- : Chunk 17 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.809362 #3787]  INFO -- : Chunk 19 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.824906 #3793]  INFO -- : Chunk 13 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.827735 #3793]  INFO -- : Chunk 14 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.831793 #3793]  INFO -- : Chunk 16 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.843032 #3793]  INFO -- : Chunk 18 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.847339 #3793]  INFO -- : Chunk 21 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.848995 #3793]  INFO -- : Chunk 22 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.854508 #3787]  INFO -- : Chunk 20 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.871436 #3787]  INFO -- : Chunk 25 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.871556 #3793]  INFO -- : Chunk 23 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.873257 #3793]  INFO -- : Chunk 24 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.873650 #3787]  INFO -- : Chunk 26 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.879935 #3787]  INFO -- : Chunk 28 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+E, [2025-06-21T03:24:46.880832 #3793] ERROR -- : Chunk upload error: unexpected end of input at line 1 column 1
+E, [2025-06-21T03:24:46.880960 #3793] ERROR -- : /home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/json-2.12.2/lib/json/common.rb:338:in 'JSON::Ext::Parser.parse'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/json-2.12.2/lib/json/common.rb:338:in 'JSON.parse'
+/home/shayan/encryptor.link/backend/lib/streaming_upload.rb:64:in 'StreamingUpload.store_chunk'
+/home/shayan/encryptor.link/backend/app.rb:490:in 'block (4 levels) in <class:EncryptorAPI>'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:140:in 'block in Roda::RodaPlugins::OptimizedMatching::RequestMethods#_is1'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/request.rb:527:in 'Roda::RodaPlugins::Base::RequestMethods#always'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:140:in 'Roda::RodaPlugins::OptimizedMatching::RequestMethods#_is1'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:126:in 'Roda::RodaPlugins::OptimizedMatching::RequestMethods#_verb'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/request.rb:273:in 'Roda::RodaPlugins::Base::RequestMethods#post'
+/home/shayan/encryptor.link/backend/app.rb:467:in 'block (3 levels) in <class:EncryptorAPI>'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:41:in 'block in Roda::RodaPlugins::OptimizedMatching::RequestMethods#on'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/request.rb:527:in 'Roda::RodaPlugins::Base::RequestMethods#always'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:41:in 'Roda::RodaPlugins::OptimizedMatching::RequestMethods#on'
+/home/shayan/encryptor.link/backend/app.rb:408:in 'block (2 levels) in <class:EncryptorAPI>'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:41:in 'block in Roda::RodaPlugins::OptimizedMatching::RequestMethods#on'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/request.rb:527:in 'Roda::RodaPlugins::Base::RequestMethods#always'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:41:in 'Roda::RodaPlugins::OptimizedMatching::RequestMethods#on'
+/home/shayan/encryptor.link/backend/app.rb:98:in 'block in <class:EncryptorAPI>'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda.rb:522:in 'Roda::RodaPlugins::Base::InstanceMethods#_roda_run_main_route'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_before_hook.rb:27:in 'Roda::RodaPlugins::BeforeHook::InstanceMethods#_roda_run_main_route'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda.rb:500:in 'block in Roda::RodaPlugins::Base::InstanceMethods#_roda_handle_main_route'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda.rb:498:in 'Kernel#catch'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda.rb:498:in 'Roda::RodaPlugins::Base::InstanceMethods#_roda_handle_main_route'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/direct_call.rb:18:in 'Roda::RodaPlugins::DirectCall::ClassMethods#call'
+/home/shayan/encryptor.link/backend/lib/secure_logger_middleware.rb:18:in 'SecureLoggerMiddleware#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/rack-3.1.16/lib/rack/tempfile_reaper.rb:20:in 'Rack::TempfileReaper#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/rack-3.1.16/lib/rack/lint.rb:66:in 'Rack::Lint::Wrapper#response'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/rack-3.1.16/lib/rack/lint.rb:41:in 'Rack::Lint#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/rack-3.1.16/lib/rack/show_exceptions.rb:31:in 'Rack::ShowExceptions#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/rack-3.1.16/lib/rack/common_logger.rb:43:in 'Rack::CommonLogger#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/rack-3.1.16/lib/rack/content_length.rb:20:in 'Rack::ContentLength#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/configuration.rb:279:in 'Puma::Configuration::ConfigMiddleware#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/request.rb:99:in 'block in Puma::Request#handle_request'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/thread_pool.rb:390:in 'Puma::ThreadPool#with_force_shutdown'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/request.rb:98:in 'Puma::Request#handle_request'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/server.rb:472:in 'Puma::Server#process_client'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/server.rb:254:in 'block in Puma::Server#run'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/thread_pool.rb:167:in 'block in Puma::ThreadPool#spawn_thread'
+I, [2025-06-21T03:24:46.894378 #3793]  INFO -- : Chunk 29 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.896574 #3793]  INFO -- : Chunk 30 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.904666 #3793]  INFO -- : Chunk 32 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.910419 #3793]  INFO -- : Chunk 35 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.914545 #3787]  INFO -- : Chunk 31 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.916159 #3787]  INFO -- : Chunk 33 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:46.917190 #3787]  INFO -- : Chunk 34 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.007453 #3787]  INFO -- : Chunk 36 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.020376 #3793]  INFO -- : Chunk 37 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.028953 #3787]  INFO -- : Chunk 38 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.030285 #3787]  INFO -- : Chunk 39 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.036372 #3787]  INFO -- : Chunk 41 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.049587 #3793]  INFO -- : Chunk 40 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.051306 #3787]  INFO -- : Chunk 43 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.055731 #3793]  INFO -- : Chunk 42 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.064870 #3793]  INFO -- : Chunk 44 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.075801 #3787]  INFO -- : Chunk 45 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.084128 #3787]  INFO -- : Chunk 46 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.093031 #3787]  INFO -- : Chunk 49 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.114772 #3793]  INFO -- : Chunk 47 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+E, [2025-06-21T03:24:47.116343 #3793] ERROR -- : Chunk upload error: unexpected end of input at line 1 column 1
+E, [2025-06-21T03:24:47.117241 #3793] ERROR -- : /home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/json-2.12.2/lib/json/common.rb:338:in 'JSON::Ext::Parser.parse'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/json-2.12.2/lib/json/common.rb:338:in 'JSON.parse'
+/home/shayan/encryptor.link/backend/lib/streaming_upload.rb:64:in 'StreamingUpload.store_chunk'
+/home/shayan/encryptor.link/backend/app.rb:490:in 'block (4 levels) in <class:EncryptorAPI>'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:140:in 'block in Roda::RodaPlugins::OptimizedMatching::RequestMethods#_is1'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/request.rb:527:in 'Roda::RodaPlugins::Base::RequestMethods#always'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:140:in 'Roda::RodaPlugins::OptimizedMatching::RequestMethods#_is1'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:126:in 'Roda::RodaPlugins::OptimizedMatching::RequestMethods#_verb'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/request.rb:273:in 'Roda::RodaPlugins::Base::RequestMethods#post'
+/home/shayan/encryptor.link/backend/app.rb:467:in 'block (3 levels) in <class:EncryptorAPI>'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:41:in 'block in Roda::RodaPlugins::OptimizedMatching::RequestMethods#on'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/request.rb:527:in 'Roda::RodaPlugins::Base::RequestMethods#always'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:41:in 'Roda::RodaPlugins::OptimizedMatching::RequestMethods#on'
+/home/shayan/encryptor.link/backend/app.rb:408:in 'block (2 levels) in <class:EncryptorAPI>'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:41:in 'block in Roda::RodaPlugins::OptimizedMatching::RequestMethods#on'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/request.rb:527:in 'Roda::RodaPlugins::Base::RequestMethods#always'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:41:in 'Roda::RodaPlugins::OptimizedMatching::RequestMethods#on'
+/home/shayan/encryptor.link/backend/app.rb:98:in 'block in <class:EncryptorAPI>'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda.rb:522:in 'Roda::RodaPlugins::Base::InstanceMethods#_roda_run_main_route'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_before_hook.rb:27:in 'Roda::RodaPlugins::BeforeHook::InstanceMethods#_roda_run_main_route'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda.rb:500:in 'block in Roda::RodaPlugins::Base::InstanceMethods#_roda_handle_main_route'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda.rb:498:in 'Kernel#catch'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda.rb:498:in 'Roda::RodaPlugins::Base::InstanceMethods#_roda_handle_main_route'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/direct_call.rb:18:in 'Roda::RodaPlugins::DirectCall::ClassMethods#call'
+/home/shayan/encryptor.link/backend/lib/secure_logger_middleware.rb:18:in 'SecureLoggerMiddleware#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/rack-3.1.16/lib/rack/tempfile_reaper.rb:20:in 'Rack::TempfileReaper#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/rack-3.1.16/lib/rack/lint.rb:66:in 'Rack::Lint::Wrapper#response'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/rack-3.1.16/lib/rack/lint.rb:41:in 'Rack::Lint#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/rack-3.1.16/lib/rack/show_exceptions.rb:31:in 'Rack::ShowExceptions#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/rack-3.1.16/lib/rack/common_logger.rb:43:in 'Rack::CommonLogger#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/rack-3.1.16/lib/rack/content_length.rb:20:in 'Rack::ContentLength#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/configuration.rb:279:in 'Puma::Configuration::ConfigMiddleware#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/request.rb:99:in 'block in Puma::Request#handle_request'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/thread_pool.rb:390:in 'Puma::ThreadPool#with_force_shutdown'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/request.rb:98:in 'Puma::Request#handle_request'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/server.rb:472:in 'Puma::Server#process_client'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/server.rb:254:in 'block in Puma::Server#run'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/thread_pool.rb:167:in 'block in Puma::ThreadPool#spawn_thread'
+I, [2025-06-21T03:24:47.118924 #3793]  INFO -- : Chunk 50 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.136862 #3793]  INFO -- : Chunk 54 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.138294 #3793]  INFO -- : Chunk 55 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.139307 #3793]  INFO -- : Chunk 56 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.147462 #3793]  INFO -- : Chunk 57 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.151730 #3787]  INFO -- : Chunk 51 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.153221 #3787]  INFO -- : Chunk 52 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.155395 #3787]  INFO -- : Chunk 53 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.167451 #3793]  INFO -- : Chunk 59 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.168658 #3793]  INFO -- : Chunk 58 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.168734 #3793]  INFO -- : Chunk 60 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.183220 #3787]  INFO -- : Chunk 63 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.183427 #3793]  INFO -- : Chunk 62 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.183331 #3787]  INFO -- : Chunk 61 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.187969 #3793]  INFO -- : Chunk 64 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.191415 #3787]  INFO -- : Chunk 65 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.197475 #3787]  INFO -- : Chunk 66 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.211072 #3787]  INFO -- : Chunk 67 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.211568 #3787]  INFO -- : Chunk 68 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.226360 #3793]  INFO -- : Chunk 69 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.226439 #3793]  INFO -- : Chunk 70 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.231979 #3787]  INFO -- : Chunk 71 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.232045 #3787]  INFO -- : Chunk 72 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.240167 #3787]  INFO -- : Chunk 73 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.243471 #3793]  INFO -- : Chunk 74 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.253060 #3787]  INFO -- : Chunk 75 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.254956 #3787]  INFO -- : Chunk 76 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.271044 #3787]  INFO -- : Chunk 78 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.281725 #3787]  INFO -- : Chunk 79 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.294371 #3793]  INFO -- : Chunk 77 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.307875 #3793]  INFO -- : Chunk 80 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.309243 #3793]  INFO -- : Chunk 85 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.319693 #3793]  INFO -- : Chunk 86 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.329565 #3787]  INFO -- : Chunk 82 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.331410 #3793]  INFO -- : Chunk 87 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.329715 #3787]  INFO -- : Chunk 81 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.333385 #3787]  INFO -- : Chunk 83 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.336420 #3787]  INFO -- : Chunk 84 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.349525 #3787]  INFO -- : Chunk 89 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.349663 #3793]  INFO -- : Chunk 88 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.360724 #3787]  INFO -- : Chunk 90 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.361356 #3787]  INFO -- : Chunk 91 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.375273 #3793]  INFO -- : Chunk 92 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.377653 #3793]  INFO -- : Chunk 93 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.382050 #3787]  INFO -- : Chunk 94 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.390565 #3793]  INFO -- : Chunk 96 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.390962 #3793]  INFO -- : Chunk 95 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.401529 #3793]  INFO -- : Chunk 97 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.403105 #3787]  INFO -- : Chunk 98 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.418158 #3787]  INFO -- : Chunk 99 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.418602 #3787]  INFO -- : Chunk 100 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.438331 #3787]  INFO -- : Chunk 103 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.450896 #3793]  INFO -- : Chunk 101 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.456608 #3787]  INFO -- : Chunk 105 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+E, [2025-06-21T03:24:47.456924 #3793] ERROR -- : Chunk upload error: unexpected end of input at line 1 column 1
+E, [2025-06-21T03:24:47.457004 #3793] ERROR -- : /home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/json-2.12.2/lib/json/common.rb:338:in 'JSON::Ext::Parser.parse'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/json-2.12.2/lib/json/common.rb:338:in 'JSON.parse'
+/home/shayan/encryptor.link/backend/lib/streaming_upload.rb:64:in 'StreamingUpload.store_chunk'
+/home/shayan/encryptor.link/backend/app.rb:490:in 'block (4 levels) in <class:EncryptorAPI>'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:140:in 'block in Roda::RodaPlugins::OptimizedMatching::RequestMethods#_is1'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/request.rb:527:in 'Roda::RodaPlugins::Base::RequestMethods#always'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:140:in 'Roda::RodaPlugins::OptimizedMatching::RequestMethods#_is1'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:126:in 'Roda::RodaPlugins::OptimizedMatching::RequestMethods#_verb'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/request.rb:273:in 'Roda::RodaPlugins::Base::RequestMethods#post'
+/home/shayan/encryptor.link/backend/app.rb:467:in 'block (3 levels) in <class:EncryptorAPI>'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:41:in 'block in Roda::RodaPlugins::OptimizedMatching::RequestMethods#on'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/request.rb:527:in 'Roda::RodaPlugins::Base::RequestMethods#always'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:41:in 'Roda::RodaPlugins::OptimizedMatching::RequestMethods#on'
+/home/shayan/encryptor.link/backend/app.rb:408:in 'block (2 levels) in <class:EncryptorAPI>'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:41:in 'block in Roda::RodaPlugins::OptimizedMatching::RequestMethods#on'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/request.rb:527:in 'Roda::RodaPlugins::Base::RequestMethods#always'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_optimized_matching.rb:41:in 'Roda::RodaPlugins::OptimizedMatching::RequestMethods#on'
+/home/shayan/encryptor.link/backend/app.rb:98:in 'block in <class:EncryptorAPI>'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda.rb:522:in 'Roda::RodaPlugins::Base::InstanceMethods#_roda_run_main_route'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/_before_hook.rb:27:in 'Roda::RodaPlugins::BeforeHook::InstanceMethods#_roda_run_main_route'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda.rb:500:in 'block in Roda::RodaPlugins::Base::InstanceMethods#_roda_handle_main_route'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda.rb:498:in 'Kernel#catch'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda.rb:498:in 'Roda::RodaPlugins::Base::InstanceMethods#_roda_handle_main_route'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/roda-3.93.0/lib/roda/plugins/direct_call.rb:18:in 'Roda::RodaPlugins::DirectCall::ClassMethods#call'
+/home/shayan/encryptor.link/backend/lib/secure_logger_middleware.rb:18:in 'SecureLoggerMiddleware#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/rack-3.1.16/lib/rack/tempfile_reaper.rb:20:in 'Rack::TempfileReaper#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/rack-3.1.16/lib/rack/lint.rb:66:in 'Rack::Lint::Wrapper#response'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/rack-3.1.16/lib/rack/lint.rb:41:in 'Rack::Lint#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/rack-3.1.16/lib/rack/show_exceptions.rb:31:in 'Rack::ShowExceptions#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/rack-3.1.16/lib/rack/common_logger.rb:43:in 'Rack::CommonLogger#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/rack-3.1.16/lib/rack/content_length.rb:20:in 'Rack::ContentLength#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/configuration.rb:279:in 'Puma::Configuration::ConfigMiddleware#call'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/request.rb:99:in 'block in Puma::Request#handle_request'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/thread_pool.rb:390:in 'Puma::ThreadPool#with_force_shutdown'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/request.rb:98:in 'Puma::Request#handle_request'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/server.rb:472:in 'Puma::Server#process_client'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/server.rb:254:in 'block in Puma::Server#run'
+/home/shayan/encryptor.link/backend/vendor/bundle/ruby/3.4.0/gems/puma-6.6.0/lib/puma/thread_pool.rb:167:in 'block in Puma::ThreadPool#spawn_thread'
+I, [2025-06-21T03:24:47.462472 #3793]  INFO -- : Chunk 104 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.474534 #3793]  INFO -- : Chunk 106 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.474530 #3787]  INFO -- : Chunk 107 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.481891 #3787]  INFO -- : Chunk 108 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.487700 #3793]  INFO -- : Chunk 109 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.492789 #3787]  INFO -- : Chunk 110 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.506779 #3793]  INFO -- : Chunk 111 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.515703 #3793]  INFO -- : Chunk 116 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.516331 #3793]  INFO -- : Chunk 117 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.523192 #3787]  INFO -- : Chunk 112 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.523609 #3787]  INFO -- : Chunk 113 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.530328 #3793]  INFO -- : Chunk 119 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.536321 #3787]  INFO -- : Chunk 115 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.537587 #3787]  INFO -- : Chunk 114 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.539272 #3787]  INFO -- : Chunk 118 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.539806 #3793]  INFO -- : Chunk 120 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.543722 #3787]  INFO -- : Chunk 121 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.549765 #3793]  INFO -- : Chunk 122 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.550593 #3787]  INFO -- : Chunk 123 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.561514 #3793]  INFO -- : Chunk 124 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.564939 #3787]  INFO -- : Chunk 125 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.569517 #3793]  INFO -- : Chunk 126 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.569783 #3787]  INFO -- : Chunk 127 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.579910 #3793]  INFO -- : Chunk 128 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.580020 #3787]  INFO -- : Chunk 129 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.590161 #3787]  INFO -- : Chunk 131 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.591067 #3793]  INFO -- : Chunk 130 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.602085 #3793]  INFO -- : Chunk 132 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.603138 #3787]  INFO -- : Chunk 133 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.617195 #3793]  INFO -- : Chunk 135 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.617260 #3793]  INFO -- : Chunk 134 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.623701 #3793]  INFO -- : Chunk 137 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.624702 #3787]  INFO -- : Chunk 136 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.627792 #3793]  INFO -- : Chunk 138 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.631886 #3787]  INFO -- : Chunk 139 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.642243 #3787]  INFO -- : Chunk 140 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.643204 #3793]  INFO -- : Chunk 141 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.650634 #3793]  INFO -- : Chunk 142 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.652434 #3787]  INFO -- : Chunk 143 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.662143 #3787]  INFO -- : Chunk 145 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.662733 #3793]  INFO -- : Chunk 144 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.678878 #3793]  INFO -- : Chunk 147 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.678956 #3793]  INFO -- : Chunk 146 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.680713 #3787]  INFO -- : Chunk 148 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.686250 #3793]  INFO -- : Chunk 149 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.698113 #3793]  INFO -- : Chunk 152 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.699713 #3787]  INFO -- : Chunk 150 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.700611 #3787]  INFO -- : Chunk 151 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.703948 #3787]  INFO -- : Chunk 153 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.715921 #3787]  INFO -- : Chunk 155 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.725692 #3793]  INFO -- : Chunk 154 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.731377 #3793]  INFO -- : Chunk 158 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.733024 #3793]  INFO -- : Chunk 159 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.742463 #3787]  INFO -- : Chunk 156 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.743170 #3793]  INFO -- : Chunk 160 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.743252 #3787]  INFO -- : Chunk 157 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.743908 #3793]  INFO -- : Chunk 161 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.754124 #3787]  INFO -- : Chunk 163 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.754527 #3787]  INFO -- : Chunk 162 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.759242 #3793]  INFO -- : Chunk 164 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.768396 #3787]  INFO -- : Chunk 166 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.770062 #3787]  INFO -- : Chunk 165 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.776401 #3793]  INFO -- : Chunk 167 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.777452 #3787]  INFO -- : Chunk 168 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.784905 #3793]  INFO -- : Chunk 169 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.785068 #3787]  INFO -- : Chunk 170 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.793283 #3793]  INFO -- : Chunk 172 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d
+I, [2025-06-21T03:24:47.795450 #3787]  INFO -- : Chunk 171 stored for session: 7c33634b077f7db5c1e2cf4da85a4d4d

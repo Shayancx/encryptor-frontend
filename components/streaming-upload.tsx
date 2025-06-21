@@ -21,13 +21,15 @@ interface StreamingUploadProps {
   authToken?: string
   onUploadComplete: (fileId: string, shareableLink: string) => void
   uploadLimitMB: number
+  disabled?: boolean
 }
 
 export function StreamingUpload({ 
   password, 
   authToken, 
   onUploadComplete,
-  uploadLimitMB 
+  uploadLimitMB,
+  disabled = false
 }: StreamingUploadProps) {
   const [uploads, setUploads] = useState<Map<string, FileUploadProgress>>(new Map())
   const [isDragging, setIsDragging] = useState(false)
@@ -36,6 +38,15 @@ export function StreamingUpload({
   const abortControllers = useRef<Map<string, AbortController>>(new Map())
 
   const handleFiles = async (files: FileList) => {
+    if (disabled) {
+      toast({
+        title: "Upload disabled",
+        description: "Please enter a valid password first",
+        variant: "destructive"
+      })
+      return
+    }
+
     const newUploads = new Map(uploads)
     const uploadLimitBytes = uploadLimitMB * 1024 * 1024
 
@@ -147,6 +158,8 @@ export function StreamingUpload({
     e.preventDefault()
     setIsDragging(false)
     
+    if (disabled) return
+    
     if (e.dataTransfer.files.length > 0) {
       handleFiles(e.dataTransfer.files)
     }
@@ -154,11 +167,25 @@ export function StreamingUpload({
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault()
-    setIsDragging(true)
+    if (!disabled) {
+      setIsDragging(true)
+    }
   }
 
   const handleDragLeave = () => {
     setIsDragging(false)
+  }
+
+  const handleClick = () => {
+    if (disabled) {
+      toast({
+        title: "Upload disabled",
+        description: "Please enter a valid password first",
+        variant: "destructive"
+      })
+      return
+    }
+    fileInputRef.current?.click()
   }
 
   return (
@@ -166,15 +193,18 @@ export function StreamingUpload({
       {/* Drop Zone */}
       <div
         className={`
-          relative rounded-lg border-2 border-dashed p-8 text-center transition-colors
-          ${isDragging 
-            ? 'border-primary bg-primary/5' 
-            : 'border-muted-foreground/25 hover:border-muted-foreground/50'
+          relative rounded-lg border-2 border-dashed p-8 text-center transition-colors cursor-pointer
+          ${disabled 
+            ? 'border-muted-foreground/25 bg-muted/20 opacity-60 cursor-not-allowed' 
+            : isDragging 
+              ? 'border-primary bg-primary/5' 
+              : 'border-muted-foreground/25 hover:border-muted-foreground/50'
           }
         `}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
+        onClick={handleClick}
       >
         <input
           ref={fileInputRef}
@@ -182,20 +212,23 @@ export function StreamingUpload({
           multiple
           className="hidden"
           onChange={(e) => e.target.files && handleFiles(e.target.files)}
+          disabled={disabled}
         />
         
-        <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
-        <p className="mt-2 text-sm text-muted-foreground">
-          Drag and drop files here, or{' '}
-          <button
-            type="button"
-            className="font-medium text-primary hover:underline"
-            onClick={() => fileInputRef.current?.click()}
-          >
-            browse
-          </button>
+        <Upload className={`mx-auto h-12 w-12 ${disabled ? 'text-muted-foreground/50' : 'text-muted-foreground'}`} />
+        <p className={`mt-2 text-sm ${disabled ? 'text-muted-foreground/50' : 'text-muted-foreground'}`}>
+          {disabled ? (
+            "Enter a password above to enable file uploads"
+          ) : (
+            <>
+              Drag and drop files here, or{' '}
+              <span className="font-medium text-primary hover:underline">
+                browse
+              </span>
+            </>
+          )}
         </p>
-        <p className="mt-1 text-xs text-muted-foreground">
+        <p className={`mt-1 text-xs ${disabled ? 'text-muted-foreground/50' : 'text-muted-foreground'}`}>
           Files will be encrypted and uploaded in chunks (max {uploadLimitMB}MB total)
         </p>
       </div>

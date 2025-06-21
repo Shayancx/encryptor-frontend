@@ -403,8 +403,7 @@ class EncryptorAPI < Roda
         end
       end
       
-      # Add this to app.rb after the regular upload endpoint
-
+      
       # Streaming upload endpoints
       r.on 'streaming' do
         # Initialize streaming upload session
@@ -414,7 +413,7 @@ class EncryptorAPI < Roda
             
             unless data['filename'] && data['fileSize'] && data['mimeType'] && data['password']
               response.status = 400
-              return { error: 'Missing required fields' }
+              return { error: 'Missing required fields: filename, fileSize, mimeType, password' }
             end
             
             # Validate password
@@ -457,19 +456,36 @@ class EncryptorAPI < Roda
             
             session
           rescue => e
-            LOGGER.error "Streaming initialize error: #{e.message}\n#{e.backtrace.join("\n")}"
+            LOGGER.error "Streaming initialize error: #{e.message}"
+            LOGGER.error e.backtrace.join("\n")
             response.status = 500
-            { error: 'Failed to initialize streaming upload' }
+            { error: "Failed to initialize streaming upload: #{e.message}" }
           end
         end
         
         # Upload chunk
         r.post 'chunk' do
           begin
+            # Handle multipart form data
             session_id = request.params['session_id']
             chunk_index = request.params['chunk_index'].to_i
-            chunk_data = request.params['chunk_data'][:tempfile].read
             iv = request.params['iv']
+            
+            # Get chunk data from uploaded file
+            chunk_file = request.params['chunk_data']
+            if chunk_file.respond_to?(:read)
+              chunk_data = chunk_file.read
+            elsif chunk_file.respond_to?(:[]) && chunk_file[:tempfile]
+              chunk_data = chunk_file[:tempfile].read
+            else
+              response.status = 400
+              return { error: "Invalid chunk data format" }
+            end
+            
+            unless session_id && !chunk_index.nil? && chunk_data && iv
+              response.status = 400
+              return { error: 'Missing required fields: session_id, chunk_index, chunk_data, iv' }
+            end
             
             result = StreamingUpload.store_chunk(session_id, chunk_index, chunk_data, iv)
             
@@ -478,8 +494,9 @@ class EncryptorAPI < Roda
             result
           rescue => e
             LOGGER.error "Chunk upload error: #{e.message}"
+            LOGGER.error e.backtrace.join("\n")
             response.status = 500
-            { error: 'Failed to upload chunk' }
+            { error: "Failed to upload chunk: #{e.message}" }
           end
         end
         
@@ -489,6 +506,11 @@ class EncryptorAPI < Roda
             data = request.params
             session_id = data['session_id']
             salt = data['salt']
+            
+            unless session_id && salt
+              response.status = 400
+              return { error: 'Missing required fields: session_id, salt' }
+            end
             
             file_id = StreamingUpload.finalize_session(session_id, salt)
             
@@ -500,8 +522,9 @@ class EncryptorAPI < Roda
             }
           rescue => e
             LOGGER.error "Finalize error: #{e.message}"
+            LOGGER.error e.backtrace.join("\n")
             response.status = 500
-            { error: 'Failed to finalize upload' }
+            { error: "Failed to finalize upload: #{e.message}" }
           end
         end
         
@@ -511,6 +534,7 @@ class EncryptorAPI < Roda
             info = StreamingUpload.get_file_info(file_id)
             info
           rescue => e
+            LOGGER.error "Get file info error: #{e.message}"
             response.status = 404
             { error: 'File not found' }
           end
@@ -531,13 +555,14 @@ class EncryptorAPI < Roda
             chunk_data
           rescue => e
             LOGGER.error "Chunk download error: #{e.message}"
+            LOGGER.error e.backtrace.join("\n")
             response.status = 500
             { error: e.message }
           end
         end
       end
 
-
+      
 # Download endpoints
       r.on 'download', String do |file_id|
         r.get do
