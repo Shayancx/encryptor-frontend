@@ -217,9 +217,9 @@ export function StreamingUpload({
         
         <Upload className={`mx-auto h-12 w-12 ${disabled ? 'text-muted-foreground/50' : 'text-muted-foreground'}`} />
         <p className={`mt-2 text-sm ${disabled ? 'text-muted-foreground/50' : 'text-muted-foreground'}`}>
-          {disabled && (
-            <span className="block text-destructive">Enter a valid password above to enable uploads</span>
-          )}
+          {disabled ? (
+            "Enter a password above to enable file uploads"
+          ) : (
             <>
               Drag and drop files here, or{' '}
               <span className="font-medium text-primary hover:underline">

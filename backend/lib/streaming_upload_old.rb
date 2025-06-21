@@ -1,14 +1,9 @@
 require 'securerandom'
 require 'json'
 require 'fileutils'
-require 'thread'
 
 module StreamingUpload
   TEMP_STORAGE_PATH = File.expand_path('../storage/temp', __dir__)
-  
-  # Thread-safe session storage
-  @sessions = {}
-  @mutex = Mutex.new
   
   class << self
     def initialize_storage
@@ -40,18 +35,7 @@ module StreamingUpload
         chunks_received: []
       }
       
-      # Write metadata with file locking
-      metadata_file = File.join(session_path, 'metadata.json')
-      File.open(metadata_file, 'w') do |f|
-        f.flock(File::LOCK_EX)
-        f.write(metadata.to_json)
-        f.flock(File::LOCK_UN)
-      end
-      
-      # Store in memory cache
-      @mutex.synchronize do
-        @sessions[session_id] = metadata
-      end
+      File.write(File.join(session_path, 'metadata.json'), metadata.to_json)
       
       {
         session_id: session_id,
@@ -71,23 +55,13 @@ module StreamingUpload
       end
       
       begin
-        # Get metadata from cache or file
-        metadata = nil
-        @mutex.synchronize do
-          metadata = @sessions[session_id]
+        # Read metadata
+        metadata_file = File.join(session_path, 'metadata.json')
+        unless File.exist?(metadata_file)
+          raise "Session metadata not found"
         end
         
-        if metadata.nil?
-          metadata_file = File.join(session_path, 'metadata.json')
-          File.open(metadata_file, 'r') do |f|
-            f.flock(File::LOCK_SH)
-            content = f.read
-            metadata = JSON.parse(content) if content && !content.empty?
-            f.flock(File::LOCK_UN)
-          end
-        end
-        
-        raise "Session metadata not found" unless metadata
+        metadata = JSON.parse(File.read(metadata_file))
         
         # Store chunk
         chunk_file = File.join(session_path, "chunk_#{chunk_index}")
@@ -99,21 +73,10 @@ module StreamingUpload
         iv_file = File.join(session_path, "chunk_#{chunk_index}.iv")
         File.write(iv_file, iv)
         
-        # Update metadata with thread safety
-        @mutex.synchronize do
-          metadata['chunks_received'] ||= []
-          metadata['chunks_received'] << chunk_index unless metadata['chunks_received'].include?(chunk_index)
-          metadata['chunks_received'].sort!
-          @sessions[session_id] = metadata
-        end
-        
-        # Persist to file
-        metadata_file = File.join(session_path, 'metadata.json')
-        File.open(metadata_file, 'w') do |f|
-          f.flock(File::LOCK_EX)
-          f.write(metadata.to_json)
-          f.flock(File::LOCK_UN)
-        end
+        # Update metadata
+        metadata['chunks_received'] << chunk_index unless metadata['chunks_received'].include?(chunk_index)
+        metadata['chunks_received'].sort!
+        File.write(metadata_file, metadata.to_json)
         
         {
           chunks_received: metadata['chunks_received'].length,
@@ -135,13 +98,7 @@ module StreamingUpload
       end
       
       begin
-        # Read metadata with locking
-        metadata = nil
-        File.open(metadata_file, 'r') do |f|
-          f.flock(File::LOCK_SH)
-          metadata = JSON.parse(f.read)
-          f.flock(File::LOCK_UN)
-        end
+        metadata = JSON.parse(File.read(metadata_file))
         
         # Verify all chunks received
         expected_chunks = (0...metadata['total_chunks']).to_a
@@ -213,15 +170,11 @@ module StreamingUpload
         # Clean up temp files
         FileUtils.rm_rf(session_path)
         
-        # Remove from cache
-        @mutex.synchronize do
-          @sessions.delete(session_id)
-        end
-        
         file_id
       rescue => e
         puts "Error finalizing session: #{e.message}"
         puts e.backtrace
+        # Don't clean up on error for debugging
         raise e
       end
     end
@@ -322,9 +275,8 @@ module StreamingUpload
           if Time.now.to_i - metadata['created_at'] > 3600
             FileUtils.rm_rf(session_path)
           end
-        rescue => e
+        rescue
           # Remove corrupted sessions
-          puts "Removing corrupted session: #{e.message}"
           FileUtils.rm_rf(session_path)
         end
       end
